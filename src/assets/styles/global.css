@@ -1,0 +1,32 @@
+html, body, #root {
+    background-color: #e0ecf1de;
+    margin: 0;
+    padding: 0;
+}
+
+body, button, input, textarea {
+    font: 500 1.6rem Archivo;
+    color: #A044B7;
+}
+
+h1, p {    
+    font: 500 5.5rem Archivo;
+    color: #38005A;
+}
+
+::-webkit-input-placeholder{
+    font: 500 0.9rem Poppins;
+    padding-left: 8px;
+}
+
+footer {
+    font: 500 1.0rem Poppins;
+}
+
+a {
+    text-decoration: none;
+  }
+
+.gambs {
+    padding-left: 16.5rem;
+}

@@ -1,0 +1,42 @@
+.radio-group {
+    color: black;
+}
+
+div.gambs p {
+    font-size: 24px !important;
+    color: #000;
+}
+
+form.professor {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    flex-direction: row;
+    min-width: 80%;
+    max-width: 91%;
+}
+
+form.aluno {
+    min-width: 700px;
+    max-width: 701px;
+}
+
+form.aluno div.area-input {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.container-radio {
+    height: 25rem;
+    width: 44rem;
+    background-color: #C4C4C4;
+    border-radius: 11px;
+}
+
+Button {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: 1.2rem;
+}

@@ -1,0 +1,16 @@
+.input-block label {
+    font-size: 1.4rem;
+    color: #000;
+}
+
+.input-block input {
+    width: 100%;
+    height: 3.6rem;
+    margin-top: 0.8rem;
+    border-radius: 0.8rem 0.8rem 0 0;
+    background: #FAFAFC;
+    border: 1px #dcdcdcd5 solid;
+    outline: 0;
+    font: 1.0rem Poppins;
+    color: black;
+}

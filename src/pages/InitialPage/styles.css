@@ -1,0 +1,21 @@
+.background-image {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 80vh;
+    font-family: sans-serif;
+    z-index: -99;
+}
+
+.background-image .mark {
+    margin: auto;
+    padding: auto;
+}
+
+.background-image .mark img {
+    position: relative;
+    opacity: 0.3;
+    height: 16rem;
+    width: 16rem;
+}

@@ -1,0 +1,9 @@
+.area-class {
+    width: 50vw;
+}
+
+.input-area-header, .input-area-footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
