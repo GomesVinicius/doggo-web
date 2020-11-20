@@ -8,6 +8,7 @@ import Footer from '../../components/Footer';
 import { Link } from 'react-router-dom'
 
 import './styles.css';
+import { Button } from '@material-ui/core';
 
 const Login = () => {
     return (
@@ -26,9 +27,9 @@ const Login = () => {
                     &nbsp;
                     <Input label="Senha" name="password" auxText="Insira sua senha" type="password" />
                     <Link to="/initial-page">
-                        <button type="button">
+                        <Button>
                             Entrar
-                        </button>
+                        </Button>
                     </Link>
 
                 </form>
