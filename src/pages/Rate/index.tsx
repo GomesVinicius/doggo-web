@@ -5,6 +5,7 @@ import Select from '../../components/Select';
 
 import './styles.css';
 import ModalDialog from '../ModalDialog';
+import Navbar from '../../components/Navbar';
 
 const Rate = () => {
     const [subject, setSubject] = useState('');
@@ -19,47 +20,50 @@ const Rate = () => {
     }
 
     return (
-        <div className="gambs">
-            <div className="rate-area">
-                <Select
-                    value={subject}
-                    onChange={(e) => { setSubject(e.target.value) }}
-                    name="turma"
-                    label="Turma"
-                    options={[
-                        { value: "Uno", label: "Uno" },
-                        { value: "Duo", label: "Duo" },
-                    ]}
-                >
-                </Select>
+        <>
+            <Navbar />
+            <div className="gambs">
+                <div className="rate-area">
+                    <Select
+                        value={subject}
+                        onChange={(e) => { setSubject(e.target.value) }}
+                        name="turma"
+                        label="Turma"
+                        options={[
+                            { value: "Uno", label: "Uno" },
+                            { value: "Duo", label: "Duo" },
+                        ]}
+                    >
+                    </Select>
 
-                <Select
-                    value={subject}
-                    onChange={(e) => { setSubject(e.target.value) }}
-                    name="atividade"
-                    label="Atividade"
-                    options={[
-                        { value: "Atividade 1", label: "Atividade 1" },
-                        { value: "Atividade 2", label: "Atividade 2" },
-                    ]}
-                >
-                </Select>
+                    <Select
+                        value={subject}
+                        onChange={(e) => { setSubject(e.target.value) }}
+                        name="atividade"
+                        label="Atividade"
+                        options={[
+                            { value: "Atividade 1", label: "Atividade 1" },
+                            { value: "Atividade 2", label: "Atividade 2" },
+                        ]}
+                    >
+                    </Select>
 
-                <Button label="Buscar" func={() => handleOpen}></Button>
-                <Dialog
-                    open={open}
-                    keepMounted
-                    onClose={handleClose}
-                    aria-labelledby="alert-dialog-slide-title"
-                    aria-describedby="alert-dialog-slide-description"
-                    className="modal"
-                >
-                    <ModalDialog />
-                </Dialog>
+                    <Button label="Buscar" func={() => handleOpen}></Button>
+                    <Dialog
+                        open={open}
+                        keepMounted
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-slide-title"
+                        aria-describedby="alert-dialog-slide-description"
+                        className="modal"
+                    >
+                        <ModalDialog />
+                    </Dialog>
+                </div>
+                <Button label="Salvar" func={() => { }}></Button>
+
             </div>
-            <Button label="Salvar" func={() => { }}></Button>
-
-        </div>
+        </>
     )
 }
 
