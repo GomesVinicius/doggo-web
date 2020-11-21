@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog } from '@material-ui/core';
 import Button from '../../components/Button';
 import Select from '../../components/Select';
@@ -6,10 +6,12 @@ import Select from '../../components/Select';
 import './styles.css';
 import ModalDialog from '../ModalDialog';
 import Navbar from '../../components/Navbar';
+import api from '../../services/api';
 
 const Rate = () => {
     const [subject, setSubject] = useState('');
     const [open, setOpen] = useState(false);
+    //const [teacher, setTeacher] = useState('');
 
     const handleOpen = () => {
         setOpen(true);
@@ -18,6 +20,13 @@ const Rate = () => {
     const handleClose = () => {
         setOpen(false);
     }
+
+    useEffect(() => {
+        api.get('/professor/listar').then(response => {
+            console.log('data', response.data);
+            console.log('status', response.status);
+        })
+    });
 
     return (
         <>
@@ -42,10 +51,10 @@ const Rate = () => {
                         name="atividade"
                         label="Atividade"
                         options={[
-                            { value: "Atividade 1", label: "Atividade 1" },
-                            { value: "Atividade 2", label: "Atividade 2" },
+                            
                         ]}
                     >
+
                     </Select>
 
                     <Button label="Buscar" func={() => handleOpen}></Button>
