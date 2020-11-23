@@ -37,9 +37,20 @@ div.navbar a.menu-bars {
   align-items: center;
 }
 
+div.navbar a.menu-bars div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
 div.navbar a.menu-bars .icon {
   padding: 10px 10px 0 0;
-  align-self: flex-start;
+}
+
+div.navbar a.menu-bars .icon:hover {
+  opacity: 0.75;
+  transition: 0.4s;
 }
 
 .nav-menu {

@@ -3,15 +3,24 @@ import { Dialog } from '@material-ui/core';
 import Button from '../../components/Button';
 import Select from '../../components/Select';
 
-import './styles.css';
-import ModalDialog from '../ModalDialog';
+//import ModalDialog from '../ModalDialog';
 import Navbar from '../../components/Navbar';
+
 import api from '../../services/api';
+
+import './styles.css';
+
+interface Teacher {
+    cpf: string,
+    email: string,
+    nome: string
+}
 
 const Rate = () => {
     const [subject, setSubject] = useState('');
     const [open, setOpen] = useState(false);
-    const [teacher, setTeacher] = useState('');
+    const [teacher, setTeacher] = useState<Teacher[]>([]);
+    const [professorName, setProfessorName] = useState<string[]>([]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -22,9 +31,9 @@ const Rate = () => {
     }
 
     useEffect(() => {
-        api.get('/professor/listar').then(response => {
-            const nome = response.data;
-            console.log('nome', nome);
+        api.get<Teacher[]>('/professor/listar').then(response => {
+            const teacherName = response.data.map((professor: Teacher) => professor.nome);
+            setProfessorName(teacherName);
         })
     });
 
@@ -45,17 +54,24 @@ const Rate = () => {
                     >
                     </Select>
 
-                    <Select
+                    {/*<Select
                         value={subject}
                         onChange={(e) => { setSubject(e.target.value) }}
                         name="atividade"
                         label="Atividade"
-                        options={[
-                            { value: "Unno", label: 'nome'}
-                        ]}
-                    >
-
+                        options={
+                            professorName.map(nome => (
+                                [{label: nome, value: nome}]
+                            ))
+                        }
                     </Select>
+                    >*/}
+
+                    <select>
+                        {professorName.map(nome => (
+                            <option key={nome} value={nome}>{nome}</option>
+                        ))}
+                    </select>
 
                     <Button label="Buscar" func={() => handleOpen}></Button>
                     <Dialog
@@ -66,7 +82,7 @@ const Rate = () => {
                         aria-describedby="alert-dialog-slide-description"
                         className="modal"
                     >
-                        <ModalDialog />
+
                     </Dialog>
                 </div>
                 <Button label="Salvar" func={() => { }}></Button>

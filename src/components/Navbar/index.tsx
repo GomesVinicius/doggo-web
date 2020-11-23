@@ -14,7 +14,11 @@ const Navbar = () => {
             <div className="navbar">
                 <Link to="#" className="menu-bars">
                     <p>Doggo</p>
-                    <FaPowerOff size={32} className="icon"/>
+                    <div>
+                        <Link to="/">
+                            <FaPowerOff size={32} className="icon" color="#000"/>
+                        </Link>
+                    </div>
                 </Link>
             </div>
             <nav className="nav-menu active">
@@ -31,8 +35,7 @@ const Navbar = () => {
                                     id={item.id}
                                     key={item.id}
                                 >
-                                        <span className={item.cName}>{item.title}</span>
-                                    
+                                    <span className={item.cName}>{item.title}</span>
                                 </Link>
                             );
                         })}
