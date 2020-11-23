@@ -31,9 +31,8 @@ const Navbar = () => {
                                     id={item.id}
                                     key={item.id}
                                 >
-                                    <li className={item.cName}>
-                                        <span>{item.title}</span>
-                                    </li>
+                                        <span className={item.cName}>{item.title}</span>
+                                    
                                 </Link>
                             );
                         })}

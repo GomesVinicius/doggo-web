@@ -49,6 +49,8 @@ const User = () => {
                             <div className="area-input">
                                 <Input label="Nome" name="nome" auxText="Nome" />
                                 <Input label="Matrícula" name="matricula" auxText="Matrícula" />
+                                <Input label="CPF" name="cpf" auxText="CPF" />
+                                <Input label="E-mail" name="email" auxText="E-mail" />
                             </div>
                             <p>Turma</p>
 

@@ -11,7 +11,7 @@ import api from '../../services/api';
 const Rate = () => {
     const [subject, setSubject] = useState('');
     const [open, setOpen] = useState(false);
-    //const [teacher, setTeacher] = useState('');
+    const [teacher, setTeacher] = useState('');
 
     const handleOpen = () => {
         setOpen(true);
@@ -23,8 +23,8 @@ const Rate = () => {
 
     useEffect(() => {
         api.get('/professor/listar').then(response => {
-            console.log('data', response.data);
-            console.log('status', response.status);
+            const nome = response.data;
+            console.log('nome', nome);
         })
     });
 
@@ -51,7 +51,7 @@ const Rate = () => {
                         name="atividade"
                         label="Atividade"
                         options={[
-                            
+                            { value: "Unno", label: 'nome'}
                         ]}
                     >
 

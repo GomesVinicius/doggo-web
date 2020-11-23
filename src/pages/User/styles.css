@@ -25,6 +25,7 @@ form.aluno div.area-input {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    width: 160%;
 }
 
 .container-radio {
