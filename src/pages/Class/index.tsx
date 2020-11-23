@@ -42,10 +42,6 @@ const Class = () => {
                             onChange={(e) => { setSubject(e.target.value) }}
                             name="subject"
                             label="Professores"
-                            options={[
-                                { value: "Corno", label: "JuuJ" },
-                                { value: "Maconheiro", label: "JaaJ" },
-                            ]}
                         />
                     </div>
                 </div>

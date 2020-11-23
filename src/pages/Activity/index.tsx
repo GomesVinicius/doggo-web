@@ -26,10 +26,6 @@ const Activy = () => {
                         onChange={(e) => { setSubject(e.target.value) }}
                         name="subject"
                         label="Turma"
-                        options={[
-                            { value: "Unno", label: "Unno" },
-                            { value: "Duo", label: "Duo" },
-                        ]}
                     />
 
                     <Input

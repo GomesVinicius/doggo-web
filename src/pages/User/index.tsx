@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
 
 import Input from '../../components/Input';
@@ -6,16 +6,31 @@ import Button from '../../components/Button';
 
 import './styles.css';
 import Navbar from '../../components/Navbar';
+import api from '../../services/api';
 
 const User = () => {
     const [value, setValue] = useState('aluno');
+
+    const [teacherName, setTeacherName] = useState('');
+    const [teacherEmail, setTeacherEmail] = useState('');
+    const [teacherCpf, setTeacherCpf] = useState('');
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValue((event.target as HTMLInputElement).value);
     }
 
-    function test() {
-        alert('aa');
+    function handleCreateTeacher(e: FormEvent) {
+        e.preventDefault();
+
+        api.post('professor/salvar', {
+            nome: teacherName,
+            email: teacherEmail,
+            cpf: teacherCpf
+        }).then(() => {
+            alert('Professor criado');
+        }).catch(() => {
+            alert('Erro ao enviar');
+        });
     }
 
     return (
@@ -95,15 +110,30 @@ const User = () => {
                     value === 'professor' &&
                     (
                         <form className="professor">
-                            <Input label="Nome" name="nome" auxText="Nome" />
-                            <Input label="E-mail" name="email" auxText="E-mail" />
-                            <Input label="CPF" name="cpf" auxText="CPF" />
+                            <Input
+                                label="Nome"
+                                name="nome"
+                                auxText="Nome"
+                                onChange={(e) => { setTeacherName(e.target.value) }}
+                            />
+                            <Input
+                                label="E-mail"
+                                name="email"
+                                auxText="E-mail"
+                                onChange={(e) => { setTeacherEmail(e.target.value) }}
+                            />
+                            <Input
+                                label="CPF"
+                                name="cpf"
+                                auxText="CPF"
+                                onChange={(e) => { setTeacherCpf(e.target.value) }}
+                            />
                         </form>
                     )
                 }
 
 
-                <Button label="Salvar" func={() => test}></Button>
+                <Button label="Salvar" func={() => handleCreateTeacher}></Button>
             </div>
         </>
     );

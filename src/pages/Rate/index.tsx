@@ -47,10 +47,6 @@ const Rate = () => {
                         onChange={(e) => { setSubject(e.target.value) }}
                         name="turma"
                         label="Turma"
-                        options={[
-                            { value: "Uno", label: "Uno" },
-                            { value: "Duo", label: "Duo" },
-                        ]}
                     >
                     </Select>
 
@@ -67,11 +63,17 @@ const Rate = () => {
                     </Select>
                     >*/}
 
-                    <select>
+                    <Select
+                        value={subject}
+                        name="atividade"
+                        label="atividade"
+                        onChange={(e) => { setSubject(e.target.value) }}
+                    >
+                        <option value="" disabled hidden></option>
                         {professorName.map(nome => (
                             <option key={nome} value={nome}>{nome}</option>
                         ))}
-                    </select>
+                    </Select>
 
                     <Button label="Buscar" func={() => handleOpen}></Button>
                     <Dialog
