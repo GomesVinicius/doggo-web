@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog } from '@material-ui/core';
 import Button from '../../components/Button';
 import Select from '../../components/Select';
@@ -6,10 +6,16 @@ import Select from '../../components/Select';
 import Navbar from '../../components/Navbar';
 
 import './styles.css';
+import Classes from '../../models/Class';
+import api from '../../services/api';
+import Activity from '../../models/Activiy';
 
 const Rate = () => {
     const [subject, setSubject] = useState('');
     const [open, setOpen] = useState(false);
+
+    const [classes, setClasses] = useState<Classes[]>([]);
+    const [activities, setActivities] = useState<Activity[]>([]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -19,6 +25,18 @@ const Rate = () => {
         setOpen(false);
     }
 
+    useEffect(() => {
+        api.get<Classes[]>('turma/listar').then(response => {
+            const classes = response.data.map(classes => classes);
+            setClasses(classes);
+        });
+
+        api.get<Activity[]>('atividade/listar').then(response => {
+            const activities = response.data.map(activities => activities);
+            setActivities(activities);
+        })
+    }, [])
+
     return (
         <>
             <Navbar />
@@ -27,11 +45,14 @@ const Rate = () => {
 
                     <Select
                         value={subject}
-                        name="atividade"
-                        label="atividade"
+                        name="Atividade"
+                        label="Atividade"
                         onChange={(e) => { setSubject(e.target.value) }}
                     >
-                        <option value="" disabled hidden></option>
+                        <option value=""></option>
+                        {activities.map(activity => (
+                            <option key={activity.descricao} value={activity.descricao}>{activity.descricao}</option>
+                        ))}
 
                     </Select>
 
@@ -41,6 +62,10 @@ const Rate = () => {
                         name="turma"
                         label="Turma"
                     >
+                        <option value=""></option>
+                        {classes.map(classes => (
+                            <option key={classes.nome} value={classes.nome}>{classes.nome}</option>
+                        ))}
                     </Select>
 
                     <Button label="Buscar" func={() => handleOpen}></Button>
