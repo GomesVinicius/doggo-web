@@ -9,25 +9,58 @@ import Navbar from '../../components/Navbar';
 import api from '../../services/api';
 
 const User = () => {
-    const [value, setValue] = useState('aluno');
+    const [typeUser, setTypeUser] = useState('aluno');
+
+    const [classes, setClasses] = useState('');
 
     const [teacherName, setTeacherName] = useState('');
     const [teacherEmail, setTeacherEmail] = useState('');
     const [teacherCpf, setTeacherCpf] = useState('');
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue((event.target as HTMLInputElement).value);
+    const [studentName, setStudentName] = useState('');
+    const [studentRegistration, setStudentRegistration] = useState('');
+    const [studentCpf, setStudentCpf] = useState('');
+    const [studentEmail, setStudentEmail] = useState('');
+
+
+    const handleChangeTypeUsers = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTypeUser((event.target as HTMLInputElement).value);
     }
 
-    function handleCreateTeacher(e: FormEvent) {
+    const handleChangeClasses = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setClasses((event.target as HTMLInputElement).value);
+    }
+
+    function handleCreateUser(e: FormEvent) {
         e.preventDefault();
 
+        if (typeUser === 'professor') {
+            handleCreateTeacher();
+        } else {
+            handleCreateStudent();
+        }
+    }
+
+    function handleCreateTeacher() {
         api.post('professor/salvar', {
             nome: teacherName,
             email: teacherEmail,
             cpf: teacherCpf
         }).then(() => {
             alert('Professor criado');
+        }).catch(() => {
+            alert('Erro ao enviar');
+        });
+    }
+
+    function handleCreateStudent() {
+        api.post('aluno/salvar', {
+            nome: studentName,
+            matricula: studentRegistration,
+            email: studentEmail,
+            cpf: studentCpf
+        }).then(() => {
+            alert('Aluno Criado');
         }).catch(() => {
             alert('Erro ao enviar');
         });
@@ -40,8 +73,8 @@ const User = () => {
 
                 <RadioGroup
                     name="gender1"
-                    value={value}
-                    onChange={handleChange}
+                    value={typeUser}
+                    onChange={handleChangeTypeUsers}
                     row
                     className="radio-group"
                 >
@@ -58,46 +91,67 @@ const User = () => {
                 </RadioGroup>
 
                 {
-                    value === 'aluno' &&
+                    typeUser === 'aluno' &&
                     (
                         <form className="aluno">
                             <div className="area-input">
-                                <Input label="Nome" name="nome" auxText="Nome" />
-                                <Input label="Matrícula" name="matricula" auxText="Matrícula" />
-                                <Input label="CPF" name="cpf" auxText="CPF" />
-                                <Input label="E-mail" name="email" auxText="E-mail" />
+                                <Input
+                                    label="Nome"
+                                    name="nome"
+                                    auxText="Nome"
+                                    onChange={((e) => { setStudentName(e.target.value) })}
+                                />
+                                <Input
+                                    label="Matrícula"
+                                    name="matricula"
+                                    auxText="Matrícula"
+                                    onChange={((e) => { setStudentRegistration(e.target.value) })}
+                                />
+                                <Input
+                                    label="CPF"
+                                    name="cpf"
+                                    auxText="CPF"
+                                    onChange={((e) => { setStudentCpf(e.target.value) })}
+                                />
+                                <Input
+                                    label="E-mail"
+                                    name="email"
+                                    auxText="E-mail"
+                                    onChange={((e) => { setStudentEmail(e.target.value) })}
+                                />
                             </div>
                             <p>Turma</p>
 
                             <div className="container-radio">
                                 <RadioGroup
-                                    value={value}
-                                    onChange={handleChange}
+                                    name="gender2"
+                                    value={classes}
+                                    onChange={handleChangeClasses}
                                     className="radio-group"
                                     row
                                 >
                                     <FormControlLabel
-                                        value="professor"
+                                        value="1"
                                         label="Turma Unus"
                                         control={<Radio />}
                                     />
                                     <FormControlLabel
-                                        value="aluno"
+                                        value="2"
                                         label="Turma Duo"
                                         control={<Radio />}
                                     />
                                     <FormControlLabel
-                                        value="aluno"
+                                        value="3"
                                         label="Turma Tribus"
                                         control={<Radio />}
                                     />
                                     <FormControlLabel
-                                        value="aluno"
+                                        value="4"
                                         label="Turma Quattur"
                                         control={<Radio />}
                                     />
                                     <FormControlLabel
-                                        value="aluno"
+                                        value="5"
                                         label="Turma Quinque"
                                         control={<Radio />}
                                     />
@@ -107,7 +161,7 @@ const User = () => {
                     )
                 }
                 {
-                    value === 'professor' &&
+                    typeUser === 'professor' &&
                     (
                         <form className="professor">
                             <Input
@@ -133,7 +187,7 @@ const User = () => {
                 }
 
 
-                <Button label="Salvar" func={() => handleCreateTeacher}></Button>
+                <Button label="Salvar" func={() => handleCreateUser}></Button>
             </div>
         </>
     );

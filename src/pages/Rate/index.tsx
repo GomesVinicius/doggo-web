@@ -35,7 +35,7 @@ const Rate = () => {
             const teacherName = response.data.map((professor: Teacher) => professor.nome);
             setProfessorName(teacherName);
         })
-    });
+    }, []);
 
     return (
         <>
@@ -49,19 +49,6 @@ const Rate = () => {
                         label="Turma"
                     >
                     </Select>
-
-                    {/*<Select
-                        value={subject}
-                        onChange={(e) => { setSubject(e.target.value) }}
-                        name="atividade"
-                        label="Atividade"
-                        options={
-                            professorName.map(nome => (
-                                [{label: nome, value: nome}]
-                            ))
-                        }
-                    </Select>
-                    >*/}
 
                     <Select
                         value={subject}
