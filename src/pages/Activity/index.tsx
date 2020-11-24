@@ -14,6 +14,7 @@ const Activy = () => {
     const [value, setValue] = useState(0);
     const [classes, setClasses] = useState<Classes[]>([]);
     const [date, setDate] = useState();
+    const [description, setDescription] = useState('');
 
     useEffect(() => {
         api.get<Classes[]>('turma/listar').then(response => {
@@ -31,7 +32,7 @@ const Activy = () => {
                         label="Valor"
                         name="turma"
                         auxText="Valor"
-                        onChange={(e) => ( setValue(Number(e.target.value)) )}
+                        onChange={(e) => { setValue(Number(e.target.value)) }}
                     />
 
                     <Select
@@ -49,7 +50,14 @@ const Activy = () => {
                         label="Data"
                         name="data"
                         auxText="Data"
-                        
+
+                    />
+
+                    <Input
+                        label="Descrição"
+                        name="descrição"
+                        auxText="Descrição da atividade"
+                        onChange={(e) => { setDescription(e.target.value) }}
                     />
                 </div>
                 <Button label="Salvar" func={() => { }}></Button>
