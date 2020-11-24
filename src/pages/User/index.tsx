@@ -186,7 +186,6 @@ const User = () => {
                     )
                 }
 
-
                 <Button label="Salvar" func={() => handleCreateUser}></Button>
             </div>
         </>
