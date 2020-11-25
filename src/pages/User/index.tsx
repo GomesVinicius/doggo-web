@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useCallback, useEffect, useState } from 'react';
 import { FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
 
 import Input from '../../components/Input';
@@ -116,6 +116,7 @@ const User = () => {
                                     name="cpf"
                                     auxText="CPF"
                                     onChange={((e) => { setStudentCpf(e.target.value) })}
+                                    mask="cpf"
                                 />
                                 <Input
                                     label="E-mail"
