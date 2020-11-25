@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
 
 import Input from '../../components/Input';
@@ -7,11 +7,12 @@ import Button from '../../components/Button';
 import './styles.css';
 import Navbar from '../../components/Navbar';
 import api from '../../services/api';
+import Classes from '../../models/Class';
 
 const User = () => {
     const [typeUser, setTypeUser] = useState('aluno');
 
-    const [classes, setClasses] = useState('');
+    const [classes, setClasses] = useState<Classes[]>([]);
 
     const [teacherName, setTeacherName] = useState('');
     const [teacherEmail, setTeacherEmail] = useState('');
@@ -25,10 +26,6 @@ const User = () => {
 
     const handleChangeTypeUsers = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTypeUser((event.target as HTMLInputElement).value);
-    }
-
-    const handleChangeClasses = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setClasses((event.target as HTMLInputElement).value);
     }
 
     function handleCreateUser(e: FormEvent) {
@@ -65,6 +62,13 @@ const User = () => {
             alert('Erro ao enviar');
         });
     }
+
+    useEffect(() => {
+        api.get<Classes[]>('turma/listar').then(response => {
+            const classes = response.data.map(classes => classes);
+            setClasses(classes);
+        })
+    }, [])
 
     return (
         <>
@@ -123,14 +127,23 @@ const User = () => {
                             <p>Turma</p>
 
                             <div className="container-radio">
-                                <RadioGroup
+                                {classes.map(classes => (
+                                    <div key={classes.nome}>
+                                        <input type="radio" id={classes.nome} name="class" />
+                                        <label htmlFor={classes.nome}>{classes.nome}</label>
+                                    </div>
+                                ))}
+
+                                {/*<RadioGroup
                                     name="gender2"
                                     value={classes}
                                     onChange={handleChangeClasses}
                                     className="radio-group"
                                     row
                                 >
-                                    <FormControlLabel
+                                    
+
+                                        <FormControlLabel
                                         value="1"
                                         label="Turma Unus"
                                         control={<Radio />}
@@ -155,7 +168,8 @@ const User = () => {
                                         label="Turma Quinque"
                                         control={<Radio />}
                                     />
-                                </RadioGroup>
+                                    
+                                </RadioGroup>*/}
                             </div>
                         </form>
                     )

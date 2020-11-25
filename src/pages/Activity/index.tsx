@@ -41,6 +41,7 @@ const Activy = () => {
                         name="subject"
                         label="Turma"
                     >
+                        <option value=""></option>
                         {classes.map(classes => (
                             <option key={classes.nome} value={classes.nome}>{classes.nome}</option>
                         ))}
