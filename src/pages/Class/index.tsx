@@ -32,7 +32,7 @@ const Class = () => {
 
     function handleCreateClass(e: FormEvent) {
         e.preventDefault();
-        const professor = teachers.find(teacher => teacher.id == selectedTeacherId)
+        const professor = teachers.find(teacher => teacher.id == selectedTeacherId);
 
         console.log(professor)
         api.post('turma/salvar', {

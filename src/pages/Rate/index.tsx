@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { Dialog } from '@material-ui/core';
 import Button from '../../components/Button';
 import Select from '../../components/Select';
@@ -11,11 +11,12 @@ import api from '../../services/api';
 import Activity from '../../models/Activiy';
 
 const Rate = () => {
-    const [subject, setSubject] = useState('');
     const [open, setOpen] = useState(false);
 
     const [classes, setClasses] = useState<Classes[]>([]);
+    const [selectedClassId, setSelectedClassId] = useState(0);
     const [activities, setActivities] = useState<Activity[]>([]);
+    const [selectedActivityId, setSelectedActivityId] = useState(0);
 
     const handleOpen = () => {
         setOpen(true);
@@ -34,8 +35,14 @@ const Rate = () => {
         api.get<Activity[]>('atividade/listar').then(response => {
             const activities = response.data.map(activities => activities);
             setActivities(activities);
-        })
+        });
     }, [])
+
+    function handleSearchStudent(e: FormEvent) {
+        e.preventDefault();
+
+        
+    }
 
     return (
         <>
@@ -44,25 +51,27 @@ const Rate = () => {
                 <div className="rate-area">
 
                     <Select
+                        value={selectedActivityId}
                         name="Atividade"
                         label="Atividade"
-                        onChange={(e) => { setSubject(e.target.value) }}
+                        onChange={(e) => { setSelectedActivityId(Number(e.target.value)) }}
                     >
                         <option value=""></option>
                         {activities.map(activity => (
-                            <option key={activity.descricao} value={activity.descricao}>{activity.descricao}</option>
+                            <option key={activity.descricao} value={activity.id}>{activity.descricao}</option>
                         ))}
 
                     </Select>
 
                     <Select
-                        onChange={(e) => { setSubject(e.target.value) }}
+                        value={selectedClassId}
+                        onChange={(e) => { setSelectedClassId(Number(e.target.value)) }}
                         name="turma"
                         label="Turma"
                     >
                         <option value=""></option>
                         {classes.map(classes => (
-                            <option key={classes.nome} value={classes.nome}>{classes.nome}</option>
+                            <option key={classes.nome} value={classes.id}>{classes.nome}</option>
                         ))}
                     </Select>
 

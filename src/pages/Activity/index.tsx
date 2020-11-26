@@ -12,6 +12,7 @@ const Activy = () => {
     const [value, setValue] = useState(0);
     const [classes, setClasses] = useState<Classes[]>([]);
     const [selectedClass, setSelectedClass] = useState<Classes>();
+    const [selectedClassId, setSelectedClassId] = useState(0);
     const [date, setDate] = useState('');
     const [description, setDescription] = useState('');
 
@@ -23,11 +24,13 @@ const Activy = () => {
     }, [])
 
     function handleCreateActivity() {
+        const turma = classes.find(classes => classes.id == selectedClassId);
+
         api.post('atividade/salvar', {
             descricao: description,
             valor: value,
             data: date,
-            turma: selectedClass
+            turma
         }).then(() => {
             alert('Atividade criado com sucesso');
         }).catch(() => {
@@ -45,18 +48,18 @@ const Activy = () => {
                         name="turma"
                         auxText="Valor"
                         onChange={(e) => { setValue(Number(e.target.value)) }}
-                        maxLength={3}
+                        maxLength={4}
                     />
 
                     <Select
-                        
-                        onChange={(e) => { setSelectedClass(JSON.parse(e.target.value)) }}
+                        value={selectedClassId}
+                        onChange={(e) => { setSelectedClassId(Number(e.target.value)) }}
                         name="subject"
                         label="Turma"
                     >
                         <option value=""></option>
                         {classes.map(classes => (
-                            <option key={classes.nome} value={JSON.stringify(classes)}>{classes.nome}</option>
+                            <option key={classes.nome} value={classes.id}>{classes.nome}</option>
                         ))}
                     </Select>
 
