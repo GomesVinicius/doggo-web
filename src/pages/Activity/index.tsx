@@ -9,11 +9,10 @@ import api from '../../services/api';
 import './styles.css';
 
 const Activy = () => {
-    const [subject, setSubject] = useState('');
-
     const [value, setValue] = useState(0);
     const [classes, setClasses] = useState<Classes[]>([]);
-    const [date, setDate] = useState();
+    const [selectedClass, setSelectedClass] = useState<Classes>();
+    const [date, setDate] = useState('');
     const [description, setDescription] = useState('');
 
     useEffect(() => {
@@ -22,6 +21,19 @@ const Activy = () => {
             setClasses(classes);
         })
     }, [])
+
+    function handleCreateActivity() {
+        api.post('atividade/salvar', {
+            descricao: description,
+            valor: value,
+            data: date,
+            turma: selectedClass
+        }).then(() => {
+            alert('Atividade criado com sucesso');
+        }).catch(() => {
+            alert('Não foi possível criar atividade');
+        })
+    }
 
     return (
         <>
@@ -33,17 +45,18 @@ const Activy = () => {
                         name="turma"
                         auxText="Valor"
                         onChange={(e) => { setValue(Number(e.target.value)) }}
+                        maxLength={3}
                     />
 
                     <Select
-                        value={subject}
-                        onChange={(e) => { setSubject(e.target.value) }}
+                        
+                        onChange={(e) => { setSelectedClass(JSON.parse(e.target.value)) }}
                         name="subject"
                         label="Turma"
                     >
                         <option value=""></option>
                         {classes.map(classes => (
-                            <option key={classes.nome} value={classes.nome}>{classes.nome}</option>
+                            <option key={classes.nome} value={JSON.stringify(classes)}>{classes.nome}</option>
                         ))}
                     </Select>
 
@@ -52,6 +65,7 @@ const Activy = () => {
                         name="data"
                         auxText="Data"
                         mask="date"
+                        onChange={(e) => {setDate((e.target.value)) }}
                     />
 
                     <Input
@@ -61,7 +75,7 @@ const Activy = () => {
                         onChange={(e) => { setDescription(e.target.value) }}
                     />
                 </div>
-                <Button label="Salvar" func={() => { }}></Button>
+                <Button label="Salvar" func={() => handleCreateActivity}></Button>
             </div >
         </>
     )

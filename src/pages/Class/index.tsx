@@ -77,7 +77,7 @@ const Class = () => {
                         />
 
                         <Select
-                            value={teste}
+                            
                             onChange={(e) => { setSelectedTeacher(JSON.parse(e.target.value)) }}
                             name="subject"
                             label="Professores"                             
