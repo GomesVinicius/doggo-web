@@ -33,7 +33,7 @@ const Class = () => {
     function handleCreateClass(e: FormEvent) {
         e.preventDefault();
         console.log(selectedTeacher)
-        /*api.post('turma/salvar', {
+        api.post('turma/salvar', {
             nome: className,
             semestre: classSemester,
             ano: classYear,
@@ -42,7 +42,7 @@ const Class = () => {
             alert('Turma criada com sucesso');
         }).catch(() => {
             alert('Não foi possível criar a turma');
-        })*/
+        })
     }
 
     return (
@@ -78,13 +78,13 @@ const Class = () => {
 
                         <Select
                             value={teste}
-                            onChange={(e) => { console.log(e) }}
+                            onChange={(e) => { setSelectedTeacher(JSON.parse(e.target.value)) }}
                             name="subject"
                             label="Professores"                             
                         >
                             <option value=""></option>
                             {teachers.map(teacher => (
-                                <option key={teacher.cpf} value={teacher.nome}  >{teacher.nome}</option>
+                                <option key={teacher.cpf} value={JSON.stringify(teacher)}>{teacher.nome}</option>
                             ))}
                         </Select>
                     </div>
