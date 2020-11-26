@@ -44,7 +44,6 @@ const Rate = () => {
                 <div className="rate-area">
 
                     <Select
-                        value={subject}
                         name="Atividade"
                         label="Atividade"
                         onChange={(e) => { setSubject(e.target.value) }}
@@ -57,7 +56,6 @@ const Rate = () => {
                     </Select>
 
                     <Select
-                        value={subject}
                         onChange={(e) => { setSubject(e.target.value) }}
                         name="turma"
                         label="Turma"

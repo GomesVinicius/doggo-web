@@ -13,7 +13,7 @@ import './styles.css'
 
 const Class = () => {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
-    const [selectedTeacher, setSelectedTeacher] = useState<Teacher>();
+    const [selectedTeacherId, setSelectedTeacherId] = useState<number>(0);
     const [classes, setClasses] = useState<Classes[]>([]);
 
     const [className, setClassName] = useState('');
@@ -32,12 +32,14 @@ const Class = () => {
 
     function handleCreateClass(e: FormEvent) {
         e.preventDefault();
-        console.log(selectedTeacher)
+        const professor = teachers.find(teacher => teacher.id == selectedTeacherId)
+
+        console.log(professor)
         api.post('turma/salvar', {
             nome: className,
             semestre: classSemester,
             ano: classYear,
-            professor: selectedTeacher
+            professor
         }).then(() => {
             alert('Turma criada com sucesso');
         }).catch(() => {
@@ -57,7 +59,7 @@ const Class = () => {
                             name="turma"
                             auxText="Nome da turma"
                             onChange={(e) => { setClassName(e.target.value) }}
-                       />
+                        />
                         <Input
                             label="Semestre"
                             name="semestre"
@@ -77,14 +79,14 @@ const Class = () => {
                         />
 
                         <Select
-                            
-                            onChange={(e) => { setSelectedTeacher(JSON.parse(e.target.value)) }}
+                            value={selectedTeacherId}
+                            onChange={(e) => setSelectedTeacherId(Number(e.target.value))}
                             name="subject"
-                            label="Professores"                             
+                            label="Professores"
                         >
                             <option value=""></option>
                             {teachers.map(teacher => (
-                                <option key={teacher.cpf} value={JSON.stringify(teacher)}>{teacher.nome}</option>
+                                <option key={teacher.cpf} value={teacher.id}>{teacher.nome}</option>
                             ))}
                         </Select>
                     </div>
