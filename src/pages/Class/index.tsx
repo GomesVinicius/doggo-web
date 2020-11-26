@@ -13,6 +13,7 @@ import './styles.css'
 
 const Class = () => {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
+    const [selectedTeacher, setSelectedTeacher] = useState<Teacher>();
     const [classes, setClasses] = useState<Classes[]>([]);
 
     const [className, setClassName] = useState('');
@@ -31,13 +32,12 @@ const Class = () => {
 
     function handleCreateClass(e: FormEvent) {
         e.preventDefault();
-        console.log(teste);
-        /*
-        api.post('turma/salvar', {
+        console.log(selectedTeacher)
+        /*api.post('turma/salvar', {
             nome: className,
             semestre: classSemester,
             ano: classYear,
-            professor: classTeacher
+            professor: selectedTeacher
         }).then(() => {
             alert('Turma criada com sucesso');
         }).catch(() => {
@@ -57,7 +57,7 @@ const Class = () => {
                             name="turma"
                             auxText="Nome da turma"
                             onChange={(e) => { setClassName(e.target.value) }}
-                        />
+                       />
                         <Input
                             label="Semestre"
                             name="semestre"
@@ -73,17 +73,18 @@ const Class = () => {
                             name="ano"
                             auxText="Ano"
                             onChange={(e) => { setClassYear(Number(e.target.value)) }}
+                            mask="year"
                         />
 
                         <Select
                             value={teste}
-                            onChange={(e) => { setTeste(e.target.value) }}
+                            onChange={(e) => { console.log(e) }}
                             name="subject"
-                            label="Professores"
+                            label="Professores"                             
                         >
                             <option value=""></option>
                             {teachers.map(teacher => (
-                                <option key={teacher.cpf} value={teacher.nome}>{teacher.nome}</option>
+                                <option key={teacher.cpf} value={teacher.nome}  >{teacher.nome}</option>
                             ))}
                         </Select>
                     </div>

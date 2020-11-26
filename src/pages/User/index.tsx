@@ -13,6 +13,8 @@ const User = () => {
     const [typeUser, setTypeUser] = useState('aluno');
 
     const [classes, setClasses] = useState<Classes[]>([]);
+    const [selectedClass, setSelectedClass] = useState<Classes>();
+    const [selectedClasses, setSelectedClasses] = useState<Classes[]>([]);
 
     const [teacherName, setTeacherName] = useState('');
     const [teacherEmail, setTeacherEmail] = useState('');
@@ -34,6 +36,7 @@ const User = () => {
         if (typeUser === 'professor') {
             handleCreateTeacher();
         } else {
+            console.log();
             handleCreateStudent();
         }
     }
@@ -53,9 +56,10 @@ const User = () => {
     function handleCreateStudent() {
         api.post('aluno/salvar', {
             nome: studentName,
-            matricula: studentRegistration,
             email: studentEmail,
-            cpf: studentCpf
+            cpf: studentCpf,
+            matricula: studentRegistration,
+            listaTurma: [selectedClass]
         }).then(() => {
             alert('Aluno Criado');
         }).catch(() => {
@@ -123,6 +127,7 @@ const User = () => {
                                     name="email"
                                     auxText="E-mail"
                                     onChange={((e) => { setStudentEmail(e.target.value) })}
+                                    
                                 />
                             </div>
                             <p>Turma</p>
@@ -130,47 +135,11 @@ const User = () => {
                             <div className="container-radio">
                                 {classes.map(classes => (
                                     <div key={classes.nome}>
-                                        <input type="radio" id={classes.nome} name="class" />
+                                        <input type="radio" id={classes.nome} name="class" onChange={() => setSelectedClass(classes)}/>
                                         <label htmlFor={classes.nome}>{classes.nome}</label>
                                     </div>
                                 ))}
 
-                                {/*<RadioGroup
-                                    name="gender2"
-                                    value={classes}
-                                    onChange={handleChangeClasses}
-                                    className="radio-group"
-                                    row
-                                >
-                                    
-
-                                        <FormControlLabel
-                                        value="1"
-                                        label="Turma Unus"
-                                        control={<Radio />}
-                                    />
-                                    <FormControlLabel
-                                        value="2"
-                                        label="Turma Duo"
-                                        control={<Radio />}
-                                    />
-                                    <FormControlLabel
-                                        value="3"
-                                        label="Turma Tribus"
-                                        control={<Radio />}
-                                    />
-                                    <FormControlLabel
-                                        value="4"
-                                        label="Turma Quattur"
-                                        control={<Radio />}
-                                    />
-                                    <FormControlLabel
-                                        value="5"
-                                        label="Turma Quinque"
-                                        control={<Radio />}
-                                    />
-                                    
-                                </RadioGroup>*/}
                             </div>
                         </form>
                     )
@@ -196,6 +165,7 @@ const User = () => {
                                 name="cpf"
                                 auxText="CPF"
                                 onChange={(e) => { setTeacherCpf(e.target.value) }}
+                                mask="cpf"
                             />
                         </form>
                     )

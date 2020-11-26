@@ -1,11 +1,43 @@
 export function cpfMask(e: React.FormEvent<HTMLInputElement>) {
     e.currentTarget.maxLength = 14;
     let value = e.currentTarget.value;
-    value = value.replace(/\D/g, '') // substitui qualquer caracter que nao seja numero por nada
-    value = value.replace(/(\d{3})(\d)/, '$1.$2') // captura 2 grupos de numero o primeiro de 3 e o segundo de 1, apos capturar o primeiro grupo ele adiciona um ponto antes do segundo grupo de numero
-    value = value.replace(/(\d{3})(\d)/, '$1.$2')
-    value = value.replace(/(\d{3})(\d{1,2})/, '$1-$2')
-    value = value.replace(/(-\d{2})\d+?$/, '$1') // captura 2 numeros seguidos de um traço e não deixa ser digitado mais nada
+    value = value.replace(/\D/g, '');
+    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+    value = value.replace(/(\d{3})(\d{1,2})/, '$1-$2');
+    value = value.replace(/(-\d{2})\d+?$/, '$1');
+    
     e.currentTarget.value = value;
     return e;
 };
+
+export function dateMask(e: React.FormEvent<HTMLInputElement>) {
+    e.currentTarget.maxLength = 10;
+    let value = e.currentTarget.value;
+    value = value.replace(/\D/g, '');
+    value = value.replace(/(\d{2})(\d)/, '$1/$2');
+    value = value.replace(/(\d{2})(\d)/, '$1/$2');
+    value = value.replace(/(\d{4})(\d)/, '$1');
+
+    e.currentTarget.value = value;
+    return e;
+}
+
+export function yearMask(e: React.FormEvent<HTMLInputElement>) {
+    e.currentTarget.maxLength = 4;
+    let value = e.currentTarget.value;
+    value = value.replace(/\D/g, '');
+
+    e.currentTarget.value = value;
+    return e;
+}
+
+export function emailMask(e: React.FormEvent<HTMLInputElement>) {
+    e.currentTarget.maxLength = 22;
+    let value = e.currentTarget.value;
+
+    value = value.replace(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/, value);
+
+    e.currentTarget.value = value;
+    return e;
+}

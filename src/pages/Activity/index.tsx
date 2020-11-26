@@ -51,7 +51,7 @@ const Activy = () => {
                         label="Data"
                         name="data"
                         auxText="Data"
-
+                        mask="date"
                     />
 
                     <Input
