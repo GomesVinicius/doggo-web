@@ -11,7 +11,6 @@ import './styles.css';
 const Activy = () => {
     const [value, setValue] = useState(0);
     const [classes, setClasses] = useState<Classes[]>([]);
-    const [selectedClass, setSelectedClass] = useState<Classes>();
     const [selectedClassId, setSelectedClassId] = useState(0);
     const [date, setDate] = useState('');
     const [description, setDescription] = useState('');
@@ -24,7 +23,7 @@ const Activy = () => {
     }, [])
 
     function handleCreateActivity() {
-        const turma = classes.find(classes => classes.id == selectedClassId);
+        const turma = classes.find(classes => classes.id === selectedClassId);
 
         api.post('atividade/salvar', {
             descricao: description,
@@ -33,8 +32,8 @@ const Activy = () => {
             turma
         }).then(() => {
             alert('Atividade criado com sucesso');
-        }).catch(() => {
-            alert('Não foi possível criar atividade');
+        }).catch((error) => {
+            alert(error); 
         })
     }
 

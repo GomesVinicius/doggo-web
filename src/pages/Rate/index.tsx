@@ -1,47 +1,65 @@
 import React, { FormEvent, useEffect, useState } from 'react';
-import { Dialog } from '@material-ui/core';
 import Button from '../../components/Button';
 import Select from '../../components/Select';
 
 import Navbar from '../../components/Navbar';
 
 import './styles.css';
-import Classes from '../../models/Class';
 import api from '../../services/api';
+
+import Classes from '../../models/Class';
 import Activity from '../../models/Activiy';
+import Student from '../../models/Student';
 
 const Rate = () => {
-    const [open, setOpen] = useState(false);
-
     const [classes, setClasses] = useState<Classes[]>([]);
     const [selectedClassId, setSelectedClassId] = useState(0);
     const [activities, setActivities] = useState<Activity[]>([]);
     const [selectedActivityId, setSelectedActivityId] = useState(0);
-
-    const handleOpen = () => {
-        setOpen(true);
-    }
-
-    const handleClose = () => {
-        setOpen(false);
-    }
+    const [students, setStudents] = useState<Student[]>([]);
+    
+    const [valueRates, setValueRates] = useState<number>();
+    const [descriptionRates, setDescriptionRates] = useState<string[]>(['']);
+    const [cpfRates, setCpfRates] = useState<string[]>(['']);
 
     useEffect(() => {
         api.get<Classes[]>('turma/listar').then(response => {
             const classes = response.data.map(classes => classes);
             setClasses(classes);
-        });
+        }).catch(() => 'Houve um erro ao procurar as turmas');
 
         api.get<Activity[]>('atividade/listar').then(response => {
             const activities = response.data.map(activities => activities);
             setActivities(activities);
+        }).catch(() => 'Houve um erro ao carregar as atividades');
+
+        api.get<Student[]>(`aluno/listar/idTurma=1`).then(response => {
+            const students = response.data.map(student => student);
+            setStudents(students);
+            console.log(students);
         });
     }, [])
 
     function handleSearchStudent(e: FormEvent) {
         e.preventDefault();
 
+        api.get<Student[]>(`aluno/listar/idTurma=${selectedActivityId}`).then(response => {
+            const students = response.data.map(student => student);
+            setStudents(students);
+            console.log(students);
+        });
+    }
+
+    function handleCreateNote(e: FormEvent) {
+        e.preventDefault();
+
+        let body = [{}]
         
+        /*api.post<Rates[]>('nota/salvar', {
+            
+        }).catch(() => {
+            alert('Não foi possível fazer inserção das notas')
+        })*/
     }
 
     return (
@@ -75,17 +93,36 @@ const Rate = () => {
                         ))}
                     </Select>
 
-                    <Button label="Buscar" func={() => handleOpen}></Button>
-                    <Dialog
-                        open={open}
-                        keepMounted
-                        onClose={handleClose}
-                        aria-labelledby="alert-dialog-slide-title"
-                        aria-describedby="alert-dialog-slide-description"
-                        className="modal"
-                    >
+                    <Button label="Buscar" func={() => handleSearchStudent}></Button>
 
-                    </Dialog>
+                    <table>
+                        <thead>
+                            <th>Aluno</th>
+                            <th>Turma</th>
+                            <th>Nota</th>
+                        </thead>
+
+                        <tbody>
+                            {
+                                students.map(student => (
+                                    <tr>
+                                        <td key={student.cpf}>
+                                            {student.nome}
+                                        </td>
+
+                                        <td key={student.cpf}>
+                                            {student.turmas.map(turma => turma.nome + ' ')}
+                                        </td>
+
+                                        <td key={student.cpf}>
+                                            <input type="text" onChange={(e) => { setValueRates(Number(e.target.value)) }} />
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table>
+
                 </div>
                 <Button label="Salvar" func={() => { }}></Button>
 

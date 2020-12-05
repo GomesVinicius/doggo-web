@@ -5,7 +5,6 @@ import Navbar from '../../components/Navbar';
 import Select from '../../components/Select';
 
 import Teacher from '../../models/Teacher';
-import Classes from '../../models/Class';
 
 import api from '../../services/api';
 
@@ -14,14 +13,10 @@ import './styles.css'
 const Class = () => {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
     const [selectedTeacherId, setSelectedTeacherId] = useState<number>(0);
-    const [classes, setClasses] = useState<Classes[]>([]);
 
     const [className, setClassName] = useState('');
     const [classSemester, setClassSemester] = useState('');
     const [classYear, setClassYear] = useState(0);
-    const [classTeacher, setClassTeacher] = useState<Teacher>();
-
-    const [teste, setTeste] = useState('');
 
     useEffect(() => {
         api.get<Teacher[]>('professor/listar').then(response => {
@@ -32,7 +27,7 @@ const Class = () => {
 
     function handleCreateClass(e: FormEvent) {
         e.preventDefault();
-        const professor = teachers.find(teacher => teacher.id == selectedTeacherId);
+        const professor = teachers.find(teacher => teacher.id === selectedTeacherId);
 
         console.log(professor)
         api.post('turma/salvar', {
@@ -42,8 +37,8 @@ const Class = () => {
             professor
         }).then(() => {
             alert('Turma criada com sucesso');
-        }).catch(() => {
-            alert('Não foi possível criar a turma');
+        }).catch((error) => {
+            alert(error);
         })
     }
 

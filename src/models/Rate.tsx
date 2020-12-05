@@ -3,6 +3,7 @@ import Classes from "./Class";
 
 export default interface Rate {
     id?: number,
-    atividade: Activity,
-    turma: Classes
+    cpf: string,
+    descricao: string,
+    valor: number
 };

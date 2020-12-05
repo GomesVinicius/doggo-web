@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
 
 import Input from '../../components/Input';
@@ -14,7 +14,6 @@ const User = () => {
 
     const [classes, setClasses] = useState<Classes[]>([]);
     const [selectedClass, setSelectedClass] = useState<Classes>();
-    const [selectedClasses, setSelectedClasses] = useState<Classes[]>([]);
 
     const [teacherName, setTeacherName] = useState('');
     const [teacherEmail, setTeacherEmail] = useState('');
@@ -48,8 +47,8 @@ const User = () => {
             cpf: teacherCpf
         }).then(() => {
             alert('Professor criado');
-        }).catch(() => {
-            alert('Erro ao enviar');
+        }).catch((error) => {
+            alert(error);
         });
     }
 
@@ -62,8 +61,8 @@ const User = () => {
             listaTurma: [selectedClass]
         }).then(() => {
             alert('Aluno Criado');
-        }).catch(() => {
-            alert('Erro ao enviar');
+        }).catch((error) => {
+            alert(error.response.error);
         });
     }
 
