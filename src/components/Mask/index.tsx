@@ -32,6 +32,15 @@ export function yearMask(e: React.FormEvent<HTMLInputElement>) {
     return e;
 }
 
+export function registerMask(e: React.FormEvent<HTMLInputElement>) {
+    e.currentTarget.maxLength = 6;
+    let value = e.currentTarget.value;
+    value = value.replace(/\D/g, '');
+
+    e.currentTarget.value = value;
+    return e;
+}
+
 export function emailMask(e: React.FormEvent<HTMLInputElement>) {
     e.currentTarget.maxLength = 22;
     let value = e.currentTarget.value;

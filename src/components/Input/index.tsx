@@ -1,12 +1,12 @@
 import React, { InputHTMLAttributes, useCallback } from 'react';
-import { cpfMask, dateMask, yearMask } from '../Mask';
+import { cpfMask, dateMask, registerMask, yearMask } from '../Mask';
 import './styles.css';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string;
     name: string;
     auxText?: string;
-    mask?: "cpf" | "date" | "email" | "year";
+    mask?: "cpf" | "date" | "email" | "year" | "register";
 }
 
 const Input: React.FC<InputProps> = ({ label, name, auxText, mask,...rest}) => {
@@ -22,6 +22,9 @@ const Input: React.FC<InputProps> = ({ label, name, auxText, mask,...rest}) => {
         }
         if (mask === 'year') {
             yearMask(e);
+        }
+        if (mask === 'register') {
+            registerMask(e);
         }
         else {
 

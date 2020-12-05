@@ -41,18 +41,38 @@ const User = () => {
     }
 
     function handleCreateTeacher() {
+
+        if (!teacherName || teacherName.length <= 3 || teacherEmail.length <= 6 || !teacherEmail.includes('@') || !teacherEmail.includes('.com') || !teacherCpf || teacherCpf.length !== 14)
+            return alert('Insira os dados corretamente')
+
         api.post('professor/salvar', {
             nome: teacherName,
             email: teacherEmail,
             cpf: teacherCpf
         }).then(() => {
             alert('Professor criado');
+            clearInputs();
         }).catch((error) => {
             alert(error);
         });
     }
 
     function handleCreateStudent() {
+        if (!studentName || studentName.length <= 3)
+            return alert('Nome inválido')
+
+        if (studentEmail.length <= 6 || !studentEmail.includes('@') || !studentEmail.includes('.com') )
+            return alert('E-mail inválido')
+
+        if (!studentCpf || studentCpf.length !== 14)
+            return alert('CPF inválido')
+
+        if (studentRegistration.length != 6 || !Number(studentRegistration))
+            return alert('Matrícula inválida')
+
+        if (!selectedClass)
+            return alert('Selecione uma turma')
+
         api.post('aluno/salvar', {
             nome: studentName,
             email: studentEmail,
@@ -61,8 +81,9 @@ const User = () => {
             listaTurma: [selectedClass]
         }).then(() => {
             alert('Aluno Criado');
-        }).catch((error) => {
-            alert(error.response.error);
+            clearInputs();
+        }).catch(() => {
+            alert('Erro inesperado');
         });
     }
 
@@ -72,6 +93,17 @@ const User = () => {
             setClasses(classes);
         })
     }, [])
+
+
+    function clearInputs() {
+        setTeacherName('');
+        setTeacherEmail('');
+        setTeacherCpf('');
+        setStudentRegistration('');
+        setStudentName('');
+        setStudentEmail('');
+        setStudentCpf('');
+    }
 
     return (
         <>
@@ -111,7 +143,8 @@ const User = () => {
                                 <Input
                                     label="Matrícula"
                                     name="matricula"
-                                    auxText="Matrícula"
+                                    auxText="037065"
+                                    mask="register"
                                     onChange={((e) => { setStudentRegistration(e.target.value) })}
                                 />
                                 <Input
@@ -126,7 +159,7 @@ const User = () => {
                                     name="email"
                                     auxText="E-mail"
                                     onChange={((e) => { setStudentEmail(e.target.value) })}
-                                    
+
                                 />
                             </div>
                             <p>Turma</p>
@@ -134,7 +167,7 @@ const User = () => {
                             <div className="container-radio">
                                 {classes.map(classes => (
                                     <div key={classes.nome}>
-                                        <input type="radio" id={classes.nome} name="class" onChange={() => setSelectedClass(classes)}/>
+                                        <input type="radio" id={classes.nome} name="class" onChange={() => setSelectedClass(classes)} />
                                         <label htmlFor={classes.nome}>{classes.nome}</label>
                                     </div>
                                 ))}
