@@ -23,6 +23,18 @@ const Activy = () => {
     }, [])
 
     function handleCreateActivity() {
+        if (!Number(value) || value > 100)
+            return alert('Nota inválida');
+
+        if (!description || description.length < 10)
+            return alert('Descrição inválida');
+
+        if (!date || date.length !== 10)
+            return alert('Descrição inválida');
+
+        if (!selectedClassId)
+            return alert('Selecione uma turma');
+
         const turma = classes.find(classes => classes.id === selectedClassId);
 
         api.post('atividade/salvar', {
@@ -32,8 +44,8 @@ const Activy = () => {
             turma
         }).then(() => {
             alert('Atividade criado com sucesso');
-        }).catch((error) => {
-            alert(error); 
+        }).catch(() => {
+            alert('Erro inesperado');
         })
     }
 
@@ -47,7 +59,7 @@ const Activy = () => {
                         name="turma"
                         auxText="Valor"
                         onChange={(e) => { setValue(Number(e.target.value)) }}
-                        maxLength={4}
+                        maxLength={3}
                     />
 
                     <Select
@@ -67,7 +79,7 @@ const Activy = () => {
                         name="data"
                         auxText="Data"
                         mask="date"
-                        onChange={(e) => {setDate((e.target.value)) }}
+                        onChange={(e) => { setDate((e.target.value)) }}
                     />
 
                     <Input

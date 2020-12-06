@@ -42,8 +42,14 @@ const User = () => {
 
     function handleCreateTeacher() {
 
-        if (!teacherName || teacherName.length <= 3 || teacherEmail.length <= 6 || !teacherEmail.includes('@') || !teacherEmail.includes('.com') || !teacherCpf || teacherCpf.length !== 14)
-            return alert('Insira os dados corretamente')
+        if (!teacherName || teacherName.length <= 3)
+            return alert('Insira os dados corretamente');
+
+        if (teacherEmail.length <= 6 || !teacherEmail.includes('@') || !teacherEmail.includes('.com'))
+            return alert('E-mail inválido');
+        
+        if (!teacherCpf || teacherCpf.length !== 14)
+            return alert('CPF inválido');
 
         api.post('professor/salvar', {
             nome: teacherName,
@@ -59,19 +65,19 @@ const User = () => {
 
     function handleCreateStudent() {
         if (!studentName || studentName.length <= 3)
-            return alert('Nome inválido')
+            return alert('Nome inválido');
 
         if (studentEmail.length <= 6 || !studentEmail.includes('@') || !studentEmail.includes('.com') )
-            return alert('E-mail inválido')
+            return alert('E-mail inválido');
 
         if (!studentCpf || studentCpf.length !== 14)
-            return alert('CPF inválido')
+            return alert('CPF inválido');
 
-        if (studentRegistration.length != 6 || !Number(studentRegistration))
-            return alert('Matrícula inválida')
+        if (studentRegistration.length !== 6 || !Number(studentRegistration))
+            return alert('Matrícula inválida');
 
         if (!selectedClass)
-            return alert('Selecione uma turma')
+            return alert('Selecione uma turma');
 
         api.post('aluno/salvar', {
             nome: studentName,

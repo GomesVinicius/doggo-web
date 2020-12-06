@@ -18,6 +18,8 @@ const Class = () => {
     const [classSemester, setClassSemester] = useState('');
     const [classYear, setClassYear] = useState(0);
 
+    const year = new Date().getFullYear();
+
     useEffect(() => {
         api.get<Teacher[]>('professor/listar').then(response => {
             const teacher = response.data.map((teacher: Teacher) => teacher)
@@ -27,9 +29,21 @@ const Class = () => {
 
     function handleCreateClass(e: FormEvent) {
         e.preventDefault();
+
+        if (!className || className.length <= 3)
+            return alert('Nome da turma inválida');
+
+        if (!classSemester || classSemester.length > 2)
+            return alert('Semestre inválido');
+
+        if (!classYear || classYear.toString().length !== 4 || classYear > year + 1 || classYear < 2010)
+            return alert('Ano inválido')
+
+        if (!selectedTeacherId)
+            return alert('Selecione um professor')
+
         const professor = teachers.find(teacher => teacher.id === selectedTeacherId);
 
-        console.log(professor)
         api.post('turma/salvar', {
             nome: className,
             semestre: classSemester,
@@ -37,8 +51,8 @@ const Class = () => {
             professor
         }).then(() => {
             alert('Turma criada com sucesso');
-        }).catch((error) => {
-            alert(error);
+        }).catch(() => {
+            alert('Ocorreu um erro inesperado');
         })
     }
 
@@ -68,7 +82,7 @@ const Class = () => {
                         <Input
                             label="Ano"
                             name="ano"
-                            auxText="Ano"
+                            auxText={year.toString()}
                             onChange={(e) => { setClassYear(Number(e.target.value)) }}
                             mask="year"
                         />
