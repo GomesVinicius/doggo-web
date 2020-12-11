@@ -20,8 +20,6 @@ const Rate = () => {
     const [students, setStudents] = useState<Student[]>([]);
 
     const [valueRates, setValueRates] = useState<number[]>([]);
-    const [descriptionRates, setDescriptionRates] = useState<string[]>(['']);
-    const [cpfRates, setCpfRates] = useState<string[]>(['']);
 
     useEffect(() => {
         api.get<Classes[]>('turma/listar').then(response => {
@@ -34,46 +32,45 @@ const Rate = () => {
             setActivities(activities);
         }).catch(() => 'Houve um erro ao carregar as atividades');
 
-        api.get<Student[]>(`aluno/listar/idTurma=2`).then(response => {
-            const students = response.data.map(student => student);
-            setStudents(students);
-            console.log(students);
-        });
+        // api.get<Student[]>(`aluno/listar/idTurma=2`).then(response => {
+        //     const students = response.data.map(student => student);
+        //     setStudents(students);
+        //     console.log(students);
+        // });
     }, [])
 
     function handleSearchStudent(e: FormEvent) {
         e.preventDefault();
 
-        api.get<Student[]>(`aluno/listar/idTurma=${selectedActivityId}`).then(response => {
+        api.get<Student[]>(`aluno/listar/idTurma=${selectedClassId}`).then(response => {
             const students = response.data.map(student => student);
             setStudents(students);
             console.log(students);
         });
     }
 
-    function handleCreateNote(e: FormEvent) {
-        e.preventDefault();
+    function handleCreateNote() {
+        let body: any[] = [];
 
-        let body = [];
-        for (let i = 0; i <= valueRates.length; i++) {
+        for (let i = 0; i < valueRates.length; i++) {
             let cpf = students[i].cpf;
-            let descricao = activities[i].descricao;
+            let descricao = activities[0].descricao;
             let valor = valueRates[i];
             body.push({
                 cpf,
                 descricao,
                 valor
             })
+            console.log(body)
         }
-        console.log(body)
-        // api.post('nota/salvar', {
 
-        //     // cpf: students[i].cpf,
-        //     // descricao: activities[i].descricao,
-        //     // valor: valueRates[i]
-        // }).catch(() => {
-        //     alert('Não foi possível fazer inserção das notas')
-        // })
+        api.post('nota/salvar', 
+            body
+        ).then(() => {
+            alert('Notas inseridas')
+        }).catch(() => {
+            alert('Não foi possível fazer inserção das notas')
+        })
     }
 
     return (
