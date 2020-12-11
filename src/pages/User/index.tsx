@@ -14,6 +14,9 @@ const User = () => {
 
     const [classes, setClasses] = useState<Classes[]>([]);
     const [selectedClass, setSelectedClass] = useState<Classes>();
+    const [selectedClasses, setSelectedClasses] = useState<Classes[]>([]);
+    //const [selectedClassId, setSelectedClassId] = useState(0);
+    const selectedClassId:number[] = []
 
     const [teacherName, setTeacherName] = useState('');
     const [teacherEmail, setTeacherEmail] = useState('');
@@ -23,6 +26,8 @@ const User = () => {
     const [studentRegistration, setStudentRegistration] = useState('');
     const [studentCpf, setStudentCpf] = useState('');
     const [studentEmail, setStudentEmail] = useState('');
+
+    let [check, setCheck] = useState(false);
 
 
     const handleChangeTypeUsers = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +52,7 @@ const User = () => {
 
         if (teacherEmail.length <= 6 || !teacherEmail.includes('@') || !teacherEmail.includes('.com'))
             return alert('E-mail inválido');
-        
+
         if (!teacherCpf || teacherCpf.length !== 14)
             return alert('CPF inválido');
 
@@ -64,10 +69,12 @@ const User = () => {
     }
 
     function handleCreateStudent() {
+        console.log(selectedClassId);
+        console.log(classes);
         if (!studentName || studentName.length <= 3)
             return alert('Nome inválido');
 
-        if (studentEmail.length <= 6 || !studentEmail.includes('@') || !studentEmail.includes('.com') )
+        if (studentEmail.length <= 6 || !studentEmail.includes('@') || !studentEmail.includes('.com'))
             return alert('E-mail inválido');
 
         if (!studentCpf || studentCpf.length !== 14)
@@ -79,12 +86,18 @@ const User = () => {
         if (!selectedClass)
             return alert('Selecione uma turma');
 
+        for (let i = 0; i < selectedClassId.length; i++) {
+            let selected:any;
+            selected = classes.filter(classes => classes.id == selectedClassId[i]);
+            selectedClasses.push(selected);
+        }
+
         api.post('aluno/salvar', {
             nome: studentName,
             email: studentEmail,
             cpf: studentCpf,
             matricula: studentRegistration,
-            listaTurma: [selectedClass]
+            listaTurma: selectedClasses
         }).then(() => {
             alert('Aluno Criado');
             clearInputs();
@@ -99,7 +112,6 @@ const User = () => {
             setClasses(classes);
         })
     }, [])
-
 
     function clearInputs() {
         setTeacherName('');
@@ -173,7 +185,17 @@ const User = () => {
                             <div className="container-radio">
                                 {classes.map(classes => (
                                     <div key={classes.nome}>
-                                        <input type="radio" id={classes.nome} name="class" onChange={() => setSelectedClass(classes)} />
+
+                                        <input type="checkbox" id={classes.nome} value={classes.id} name="classes" onChange={(e) => {
+                                            console.log(e.target.value);
+                                            selectedClassId.push(Number(e.target.value));
+                                            selectedClasses.push(classes);
+                                            setSelectedClass(classes);
+                                            console.log(selectedClassId, selectedClasses)
+                                            //setSelectedClass(classes);
+                                        }}
+                                        
+                                        />
                                         <label htmlFor={classes.nome}>{classes.nome}</label>
                                     </div>
                                 ))}

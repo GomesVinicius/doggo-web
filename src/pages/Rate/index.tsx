@@ -10,6 +10,7 @@ import api from '../../services/api';
 import Classes from '../../models/Class';
 import Activity from '../../models/Activiy';
 import Student from '../../models/Student';
+import { stringify } from 'querystring';
 
 const Rate = () => {
     const [classes, setClasses] = useState<Classes[]>([]);
@@ -17,8 +18,8 @@ const Rate = () => {
     const [activities, setActivities] = useState<Activity[]>([]);
     const [selectedActivityId, setSelectedActivityId] = useState(0);
     const [students, setStudents] = useState<Student[]>([]);
-    
-    const [valueRates, setValueRates] = useState<number>();
+
+    const [valueRates, setValueRates] = useState<number[]>([]);
     const [descriptionRates, setDescriptionRates] = useState<string[]>(['']);
     const [cpfRates, setCpfRates] = useState<string[]>(['']);
 
@@ -33,7 +34,7 @@ const Rate = () => {
             setActivities(activities);
         }).catch(() => 'Houve um erro ao carregar as atividades');
 
-        api.get<Student[]>(`aluno/listar/idTurma=1`).then(response => {
+        api.get<Student[]>(`aluno/listar/idTurma=2`).then(response => {
             const students = response.data.map(student => student);
             setStudents(students);
             console.log(students);
@@ -53,13 +54,26 @@ const Rate = () => {
     function handleCreateNote(e: FormEvent) {
         e.preventDefault();
 
-        let body = [{}]
-        
-        /*api.post<Rates[]>('nota/salvar', {
-            
-        }).catch(() => {
-            alert('Não foi possível fazer inserção das notas')
-        })*/
+        let body = [];
+        for (let i = 0; i <= valueRates.length; i++) {
+            let cpf = students[i].cpf;
+            let descricao = activities[i].descricao;
+            let valor = valueRates[i];
+            body.push({
+                cpf,
+                descricao,
+                valor
+            })
+        }
+        console.log(body)
+        // api.post('nota/salvar', {
+
+        //     // cpf: students[i].cpf,
+        //     // descricao: activities[i].descricao,
+        //     // valor: valueRates[i]
+        // }).catch(() => {
+        //     alert('Não foi possível fazer inserção das notas')
+        // })
     }
 
     return (
@@ -105,17 +119,17 @@ const Rate = () => {
                         <tbody>
                             {
                                 students.map(student => (
-                                    <tr>
-                                        <td key={student.cpf}>
+                                    <tr key={student.cpf}>
+                                        <td>
                                             {student.nome}
                                         </td>
 
-                                        <td key={student.cpf}>
+                                        <td>
                                             {student.turmas.map(turma => turma.nome + ' ')}
                                         </td>
 
-                                        <td key={student.cpf}>
-                                            <input type="text" onChange={(e) => { setValueRates(Number(e.target.value)) }} />
+                                        <td>
+                                            <input type="text" onChange={(e) => { valueRates.push(Number(e.target.value)) }} />
                                         </td>
                                     </tr>
                                 ))
@@ -124,7 +138,7 @@ const Rate = () => {
                     </table>
 
                 </div>
-                <Button label="Salvar" func={() => { }}></Button>
+                <Button label="Salvar" func={() => handleCreateNote}></Button>
 
             </div>
         </>
