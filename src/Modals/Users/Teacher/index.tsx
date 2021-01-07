@@ -5,6 +5,7 @@ import Input from '../../../components/Input';
 import Teacher from '../../../models/Teacher';
 import api from '../../../services/api';
 
+
 const TeacherEdit = () => {
     const [teacherName, setTeacherName] = useState('');
     const [teacherEmail, setTeacherEmail] = useState('');
@@ -59,6 +60,16 @@ const TeacherEdit = () => {
             setTeacherName(response.data.nome);
         }).catch(() => {
             alert('Deu erro');
+        });
+    }
+
+    function handleRemoveTeacher() {
+        api.delete<Teacher>(`professor/deletar/cpf=${teacherCpf}`).then((response) => {
+            console.log(response);
+            alert('Professor excluído com sucesso');
+        }).catch((err) => {
+            alert('Erro ao excluir professor');
+            console.log(err);
         });
     }
 
@@ -119,6 +130,7 @@ const TeacherEdit = () => {
                 />
 
                 <Button func={() => handleAlterTeacher} label="Editar" color="#e6af19" />
+                <Button func={() => handleRemoveTeacher} label="Excluir" color="#e6af19" />
             </DialogContent>
         </>
     )

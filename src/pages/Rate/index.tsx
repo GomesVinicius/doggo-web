@@ -11,6 +11,9 @@ import Classes from '../../models/Class';
 import Activity from '../../models/Activiy';
 import Student from '../../models/Student';
 import Input from '../../components/Input';
+import { FaPencilAlt } from 'react-icons/fa';
+import { Dialog } from '@material-ui/core';
+import RateEdit from '../../Modals/Rates';
 
 const Rate = () => {
     const [classes, setClasses] = useState<Classes[]>([]);
@@ -20,6 +23,16 @@ const Rate = () => {
     const [students, setStudents] = useState<Student[]>([]);
 
     const [valueRates, setValueRates] = useState<number[]>([]);
+
+    const [open, setOpen] = useState(false);
+
+    function handleOpenDialog() {
+        setOpen(true);
+    }
+
+    function handleCLoseDialog() {
+        setOpen(false);
+    }
 
     useEffect(() => {
         api.get<Classes[]>('turma/listar').then(response => {
@@ -133,9 +146,22 @@ const Rate = () => {
                     </table>
                 }
 
-                <Button label="Salvar" func={() => handleCreateNote}></Button>
+                <div className="buttons">
+                    {/* <FaPencilAlt color="#e6af19" size={32} className="icon-edit" onClick={handleOpenDialog} /> */}
+                    <Button label="Salvar" func={() => handleCreateNote}></Button>
+                </div>
 
             </div>
+
+            <Dialog
+                open={open}
+                onClose={handleCLoseDialog}
+                aria-labelledby="alert-dialog-slide-title"
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <RateEdit />
+            </Dialog>
+            
         </>
     )
 }

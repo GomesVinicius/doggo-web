@@ -1,8 +1,11 @@
+import { Dialog } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { FaPencilAlt } from 'react-icons/fa';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Navbar from '../../components/Navbar';
 import Select from '../../components/Select';
+import ActivityEdit from '../../Modals/Activies';
 import Classes from '../../models/Class';
 import api from '../../services/api';
 
@@ -14,13 +17,23 @@ const Activy = () => {
     const [selectedClassId, setSelectedClassId] = useState(0);
     const [date, setDate] = useState('');
     const [description, setDescription] = useState('');
+    
+    const [open, setOpen] = useState(false);
+
+    function handleOpenDialog() {
+        setOpen(true);
+    }
+
+    function handleCLoseDialog() {
+        setOpen(false);
+    }
 
     useEffect(() => {
         api.get<Classes[]>('turma/listar').then(response => {
             const classes = response.data.map(classes => classes);
             setClasses(classes);
         })
-    }, [])
+    }, []);
 
     function handleCreateActivity() {
         if (!Number(value) || value > 100)
@@ -89,8 +102,19 @@ const Activy = () => {
                         onChange={(e) => { setDescription(e.target.value) }}
                     />
                 </div>
-                <Button label="Salvar" func={() => handleCreateActivity}></Button>
+                <div className="buttons">
+                    <FaPencilAlt color="#e6af19" size={32} className="icon-edit" onClick={handleOpenDialog} />
+                    <Button label="Salvar" func={() => handleCreateActivity}></Button>
+                </div>
             </div >
+            <Dialog
+                open={open}
+                onClose={handleCLoseDialog}
+                aria-labelledby="alert-dialog-slide-title"
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <ActivityEdit />
+            </Dialog>
         </>
     )
 }

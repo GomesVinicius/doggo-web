@@ -5,5 +5,5 @@ export default interface Activity {
     valor: number,
     descricao: string,
     turma: Classes,
-    data: Date
+    data: string,
 };

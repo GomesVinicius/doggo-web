@@ -46,8 +46,6 @@ const StudentEdit = () => {
             setStudentRegistration(response.data.matricula);
             setStudentCpf(response.data.cpf);
             setStudentEmail(response.data.email);
-
-            console.log(response)
         }).catch(() => {
             alert('deu erro');
         })
@@ -89,6 +87,15 @@ const StudentEdit = () => {
             handleGetStudents();
         }).catch(() => {
             alert('Erro inesperado');
+        });
+    }
+
+    function handleRemoveStudent() {
+        api.delete<Student>(`aluno/deletar/cpf=${studentCpf}`).then((response) => {
+            alert('Aluno removido');
+        }).catch((err) => {
+            alert('Não foi possível remover o aluno');
+            console.log(err);
         });
     }
 
@@ -157,7 +164,6 @@ const StudentEdit = () => {
                                 selectedClasses.push(classes);
                                 setSelectedClass(classes);
                                 console.log(selectedClassId, selectedClasses)
-                                //setSelectedClass(classes);
                             }}
 
                             />
@@ -167,6 +173,7 @@ const StudentEdit = () => {
                 </div>
 
                 <Button func={() => handleAlterStudent} label="Editar" color="#e6af19" />
+                <Button func={() => handleRemoveStudent} label="Remover" color="#e6af19" />
 
             </DialogContent>
         </>

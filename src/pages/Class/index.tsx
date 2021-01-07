@@ -1,8 +1,11 @@
+import { Dialog } from '@material-ui/core';
 import React, { FormEvent, useEffect, useState } from 'react';
+import { FaPencilAlt } from 'react-icons/fa';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Navbar from '../../components/Navbar';
 import Select from '../../components/Select';
+import ClassEdit from '../../Modals/Class';
 
 import Teacher from '../../models/Teacher';
 
@@ -19,6 +22,16 @@ const Class = () => {
     const [classYear, setClassYear] = useState(0);
 
     const year = new Date().getFullYear();
+
+    const [open, setOpen] = useState(false);
+
+    function handleOpenDialog() {
+        setOpen(true);
+    }
+
+    function handleCLoseDialog() {
+        setOpen(false);
+    }
 
     useEffect(() => {
         api.get<Teacher[]>('professor/listar').then(response => {
@@ -100,7 +113,19 @@ const Class = () => {
                         </Select>
                     </div>
                 </div>
-                <Button label="Salvar" func={() => handleCreateClass}></Button>
+                <div className="buttons">
+                    <FaPencilAlt color="#e6af19" size={32} className="icon-edit" onClick={handleOpenDialog} />
+                    <Button label="Salvar" func={() => handleCreateClass}></Button>
+                </div>
+
+                <Dialog
+                    open={open}
+                    onClose={handleCLoseDialog}
+                    aria-labelledby="alert-dialog-slide-title"
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    <ClassEdit />
+                </Dialog>
             </div>
         </>
     )

@@ -7,7 +7,7 @@ import Classes from '../../models/Class';
 import Teacher from '../../models/Teacher';
 import api from '../../services/api';
 
-const ClassEdit = () => {
+const RateEdit = () => {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
     const [classes, setClasses]  = useState<Classes[]>([]);
     const [selectedTeacherId, setSelectedTeacherId] = useState<number>(0);
@@ -30,21 +30,19 @@ const ClassEdit = () => {
     }
 
     function handleAlterClass() {
-        // if (!classSemester || classSemester.length > 2)
-        //     return alert('Semestre inválido');
+        if (!classSemester || classSemester.length > 2)
+            return alert('Semestre inválido');
 
-        // if (!classYear || classYear.toString().length !== 4 || classYear > year + 1 || classYear < 2010)
-        //     return alert('Ano inválido')
+        if (!classYear || classYear.toString().length !== 4 || classYear > year + 1 || classYear < 2010)
+            return alert('Ano inválido')
 
-        // if (!selectedTeacherId)
-        //     return alert('Selecione um professor')
+        if (!selectedTeacherId)
+            return alert('Selecione um professor')
 
         const professor = teachers.find(teacher => teacher.id === selectedTeacherId);
 
-        console.log(professor);
-
-        api.put(`turma/atualizar/id=${selectedClassId}`, {
-            //id: selectedClassId,
+        api.put('turma/salvar', {
+            id: selectedClassId,
             nome: className,
             semestre: classSemester,
             ano: classYear,
@@ -144,4 +142,4 @@ const ClassEdit = () => {
     )
 }
 
-export default ClassEdit;
+export default RateEdit;
