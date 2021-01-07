@@ -35,9 +35,27 @@ form.aluno div.area-input {
     border-radius: 11px;
 }
 
-Button {
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     right: 0;
     bottom: 0;
-    margin: 1.2rem;
+}
+
+Button {
+    margin: 0.6rem;
+}
+
+.icon-edit {
+    margin-right: 0.6rem;
+    background-color: #fff;
+    background-color: #e0ecf1de;
+    cursor: pointer;
+    
+}
+
+.icon-edit:hover {
+    transform: scale(1.04);
 }

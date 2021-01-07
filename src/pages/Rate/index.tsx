@@ -10,6 +10,7 @@ import api from '../../services/api';
 import Classes from '../../models/Class';
 import Activity from '../../models/Activiy';
 import Student from '../../models/Student';
+import Input from '../../components/Input';
 
 const Rate = () => {
     const [classes, setClasses] = useState<Classes[]>([]);
@@ -31,12 +32,12 @@ const Rate = () => {
             setActivities(activities);
         }).catch(() => 'Houve um erro ao carregar as atividades');
 
-        api.get<Student[]>(`aluno/listar/idTurma=2`).then(response => {
-            const students = response.data.map(student => student);
-            setStudents(students);
-            console.log(students);
-        });
-    }, [])
+        // api.get<Student[]>(`aluno/listar/idTurma=2`).then(response => {
+        //     const students = response.data.map(student => student);
+        //     setStudents(students);
+        //     console.log(students);
+        // });
+    }, []);
 
     function handleSearchStudent(e: FormEvent) {
         e.preventDefault();
@@ -123,7 +124,7 @@ const Rate = () => {
                                         </td>
 
                                         <td>
-                                            <input type="text" onChange={(e) => { valueRates.push(Number(e.target.value)) }} />
+                                            <Input type="text" onChange={(e) => { valueRates.push(Number(e.target.value)) }} />
                                         </td>
                                     </tr>
                                 ))

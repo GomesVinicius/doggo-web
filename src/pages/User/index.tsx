@@ -1,13 +1,18 @@
 import React, { FormEvent, useEffect, useState } from 'react';
-import { FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
+import { Dialog, FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import './styles.css';
+
+import { FaPencilAlt } from 'react-icons/fa';
+
 import Navbar from '../../components/Navbar';
 import api from '../../services/api';
 import Classes from '../../models/Class';
+import TeacherEdit from '../../Modals/Users/Teacher';
+import StudentEdit from '../../Modals/Users/Student';
 
 const User = () => {
     const [typeUser, setTypeUser] = useState('aluno');
@@ -16,7 +21,7 @@ const User = () => {
     const [selectedClass, setSelectedClass] = useState<Classes>();
     const [selectedClasses, setSelectedClasses] = useState<Classes[]>([]);
     //const [selectedClassId, setSelectedClassId] = useState(0);
-    const selectedClassId:number[] = []
+    const selectedClassId: number[] = []
 
     const [teacherName, setTeacherName] = useState('');
     const [teacherEmail, setTeacherEmail] = useState('');
@@ -29,6 +34,15 @@ const User = () => {
 
     let [check, setCheck] = useState(false);
 
+    const [open, setOpen] = useState(false);
+
+    function handleOpenDialog() {
+        setOpen(true);
+    }
+
+    function handleCLoseDialog() {
+        setOpen(false);
+    }
 
     const handleChangeTypeUsers = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTypeUser((event.target as HTMLInputElement).value);
@@ -87,7 +101,7 @@ const User = () => {
             return alert('Selecione uma turma');
 
         for (let i = 0; i < selectedClassId.length; i++) {
-            let selected:any;
+            let selected: any;
             selected = classes.filter(classes => classes.id == selectedClassId[i]);
             selectedClasses.push(selected);
         }
@@ -111,7 +125,7 @@ const User = () => {
             const classes = response.data.map(classes => classes);
             setClasses(classes);
         })
-    }, [])
+    }, []);
 
     function clearInputs() {
         setTeacherName('');
@@ -194,7 +208,7 @@ const User = () => {
                                             console.log(selectedClassId, selectedClasses)
                                             //setSelectedClass(classes);
                                         }}
-                                        
+
                                         />
                                         <label htmlFor={classes.nome}>{classes.nome}</label>
                                     </div>
@@ -230,9 +244,24 @@ const User = () => {
                         </form>
                     )
                 }
-
-                <Button label="Salvar" func={() => handleCreateUser}></Button>
+                <div className="buttons">
+                    <FaPencilAlt color="#e6af19" size={32} className="icon-edit" onClick={handleOpenDialog} />
+                    <Button label="Salvar" className="save" func={() => handleCreateUser}></Button>
+                </div>
             </div>
+
+            <Dialog
+                open={open}
+                onClose={handleCLoseDialog}
+                aria-labelledby="alert-dialog-slide-title"
+                aria-describedby="alert-dialog-slide-description"
+            >
+                {
+                    typeUser === 'professor' ?
+                    <TeacherEdit /> :
+                    <StudentEdit />
+                }
+            </Dialog>
         </>
     );
 }
