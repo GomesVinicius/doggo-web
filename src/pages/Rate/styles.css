@@ -14,3 +14,9 @@
 .rate-area .modal {
     overflow: hidden;
 }
+
+table {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}

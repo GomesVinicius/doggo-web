@@ -10,7 +10,6 @@ import api from '../../services/api';
 import Classes from '../../models/Class';
 import Activity from '../../models/Activiy';
 import Student from '../../models/Student';
-import { stringify } from 'querystring';
 
 const Rate = () => {
     const [classes, setClasses] = useState<Classes[]>([]);
@@ -32,11 +31,11 @@ const Rate = () => {
             setActivities(activities);
         }).catch(() => 'Houve um erro ao carregar as atividades');
 
-        // api.get<Student[]>(`aluno/listar/idTurma=2`).then(response => {
-        //     const students = response.data.map(student => student);
-        //     setStudents(students);
-        //     console.log(students);
-        // });
+        api.get<Student[]>(`aluno/listar/idTurma=2`).then(response => {
+            const students = response.data.map(student => student);
+            setStudents(students);
+            console.log(students);
+        });
     }, [])
 
     function handleSearchStudent(e: FormEvent) {
@@ -45,7 +44,6 @@ const Rate = () => {
         api.get<Student[]>(`aluno/listar/idTurma=${selectedClassId}`).then(response => {
             const students = response.data.map(student => student);
             setStudents(students);
-            console.log(students);
         });
     }
 
@@ -64,7 +62,7 @@ const Rate = () => {
             console.log(body)
         }
 
-        api.post('nota/salvar', 
+        api.post('nota/salvar',
             body
         ).then(() => {
             alert('Notas inseridas')
@@ -79,7 +77,7 @@ const Rate = () => {
             <div className="gambs">
                 <div className="rate-area">
 
-                    <Select
+                    {/* <Select
                         value={selectedActivityId}
                         name="Atividade"
                         label="Atividade"
@@ -90,7 +88,7 @@ const Rate = () => {
                             <option key={activity.descricao} value={activity.id}>{activity.descricao}</option>
                         ))}
 
-                    </Select>
+                    </Select> */}
 
                     <Select
                         value={selectedClassId}
@@ -103,17 +101,16 @@ const Rate = () => {
                             <option key={classes.nome} value={classes.id}>{classes.nome}</option>
                         ))}
                     </Select>
-
                     <Button label="Buscar" func={() => handleSearchStudent}></Button>
 
+                </div>
+
+                {students[0] &&
                     <table>
-                        <thead>
+                        <tbody>
                             <th>Aluno</th>
                             <th>Turma</th>
                             <th>Nota</th>
-                        </thead>
-
-                        <tbody>
                             {
                                 students.map(student => (
                                     <tr key={student.cpf}>
@@ -133,8 +130,8 @@ const Rate = () => {
                             }
                         </tbody>
                     </table>
+                }
 
-                </div>
                 <Button label="Salvar" func={() => handleCreateNote}></Button>
 
             </div>

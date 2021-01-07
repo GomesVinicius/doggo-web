@@ -50,7 +50,7 @@ const User = () => {
         if (!teacherName || teacherName.length <= 3)
             return alert('Insira os dados corretamente');
 
-        if (teacherEmail.length <= 6 || !teacherEmail.includes('@') || !teacherEmail.includes('.com'))
+        if (teacherEmail.length <= 6 || !teacherEmail.includes('@'))
             return alert('E-mail inválido');
 
         if (!teacherCpf || teacherCpf.length !== 14)
@@ -74,7 +74,7 @@ const User = () => {
         if (!studentName || studentName.length <= 3)
             return alert('Nome inválido');
 
-        if (studentEmail.length <= 6 || !studentEmail.includes('@') || !studentEmail.includes('.com'))
+        if (studentEmail.length <= 6 || !studentEmail.includes('@'))
             return alert('E-mail inválido');
 
         if (!studentCpf || studentCpf.length !== 14)

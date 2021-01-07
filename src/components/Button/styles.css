@@ -8,3 +8,8 @@ button {
     font-size: 20px !important;
     cursor: pointer;
 }
+
+button:hover {
+    transform: scale(1.02);
+    background-color: #66666b;
+}
