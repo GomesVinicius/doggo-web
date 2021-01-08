@@ -98,13 +98,13 @@ const Rate = () => {
             console.log(body)
         }
 
-        // api.post('nota/salvar',
-        //     body
-        // ).then(() => {
-        //     alert('Notas inseridas')
-        // }).catch(() => {
-        //     alert('Não foi possível fazer inserção das notas')
-        // })
+        api.post('nota/salvar',
+            body
+        ).then(() => {
+            alert('Notas inseridas')
+        }).catch(() => {
+            alert('Não foi possível fazer inserção das notas')
+        })
     }
 
     const tamanho2: number[] = [];
@@ -174,9 +174,10 @@ const Rate = () => {
                                             {/* <Input type="text" onChange={(e) => { valueRates.push(Number(e.target.value)); }} /> */}
                                             <Select
                                                 onChange={(e) => {valueRates.push(Number(e.target.value))}}
+                                                value={valueRates[0]}
                                                 
                                             >
-                                                <option value=""></option>
+                                                <option value="" hidden></option>
                                                 {setValor()}
                                             </Select>
                                         </td>
