@@ -11,7 +11,6 @@ import Rate from './pages/Rate';
 const Routes = () => {
     return (
         <BrowserRouter>
-            <Route path="/" exact component={Login} />
             <Route path="/initial-page" component={InitialPage} />
             <Route path="/user" component={User} />
             <Route path="/class" component={Class}/>

@@ -121,6 +121,7 @@ const Rate = () => {
 
         return final;
     }
+
     return (
         <>
             <Navbar />
@@ -172,6 +173,7 @@ const Rate = () => {
 
                                         <td>
                                             {/* <Input type="text" onChange={(e) => { valueRates.push(Number(e.target.value)); }} /> */}
+                                            {}
                                             <Select
                                                 onChange={(e) => {valueRates.push(Number(e.target.value))}}
                                                 value={valueRates[0]}
@@ -189,7 +191,7 @@ const Rate = () => {
                 }
 
                 <div className="buttons">
-                    {/* <FaPencilAlt color="#e6af19" size={32} className="icon-edit" onClick={handleOpenDialog} /> */}
+                    <FaPencilAlt color="#e6af19" size={32} className="icon-edit" onClick={handleOpenDialog} />
                     <Button label="Salvar" func={() => handleCreateNote}></Button>
                 </div>
 
