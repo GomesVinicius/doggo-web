@@ -30,18 +30,16 @@ const ClassEdit = () => {
     }
 
     function handleAlterClass() {
-        // if (!classSemester || classSemester.length > 2)
-        //     return alert('Semestre inválido');
+        if (!classSemester || classSemester.length > 2)
+            return alert('Semestre inválido');
 
-        // if (!classYear || classYear.toString().length !== 4 || classYear > year + 1 || classYear < 2010)
-        //     return alert('Ano inválido')
+        if (!classYear || classYear.toString().length !== 4 || classYear > year + 1 || classYear < 2010)
+            return alert('Ano inválido')
 
-        // if (!selectedTeacherId)
-        //     return alert('Selecione um professor')
+        if (!selectedTeacherId)
+            return alert('Selecione um professor')
 
         const professor = teachers.find(teacher => teacher.id === selectedTeacherId);
-
-        console.log(professor);
 
         api.put(`turma/atualizar/id=${selectedClassId}`, {
             //id: selectedClassId,

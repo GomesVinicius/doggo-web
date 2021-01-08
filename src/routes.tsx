@@ -18,6 +18,7 @@ const Routes = () => {
             <Route path="/student" />
             <Route path="/activity" component={Activy}/>
             <Route path="/rate" component={Rate}/>
+
         </BrowserRouter>
     )
 }

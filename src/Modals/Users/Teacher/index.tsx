@@ -66,6 +66,7 @@ const TeacherEdit = () => {
     function handleRemoveTeacher() {
         api.delete<Teacher>(`professor/deletar/cpf=${teacherCpf}`).then((response) => {
             console.log(response);
+            console.log(teacherCpf);
             alert('Professor excluído com sucesso');
         }).catch((err) => {
             alert('Erro ao excluir professor');

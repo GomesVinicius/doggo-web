@@ -14,7 +14,10 @@ import Input from '../../components/Input';
 import { FaPencilAlt } from 'react-icons/fa';
 import { Dialog } from '@material-ui/core';
 import RateEdit from '../../Modals/Rates';
-
+import { Console } from 'console';
+interface Tamanho {
+    valor: number | undefined
+}
 const Rate = () => {
     const [classes, setClasses] = useState<Classes[]>([]);
     const [selectedClassId, setSelectedClassId] = useState(0);
@@ -23,7 +26,8 @@ const Rate = () => {
     const [students, setStudents] = useState<Student[]>([]);
 
     const [valueRates, setValueRates] = useState<number[]>([]);
-
+    let valueRatesNew: number[] = [];
+    const [activityValue, setActivityValue] = useState<number>(0);
     const [open, setOpen] = useState(false);
 
     function handleOpenDialog() {
@@ -40,10 +44,10 @@ const Rate = () => {
             setClasses(classes);
         }).catch(() => 'Houve um erro ao procurar as turmas');
 
-        api.get<Activity[]>('atividade/listar').then(response => {
-            const activities = response.data.map(activities => activities);
-            setActivities(activities);
-        }).catch(() => 'Houve um erro ao carregar as atividades');
+        // api.get<Activity[]>('atividade/listar').then(response => {
+        //     const activities = response.data.map(activities => activities);
+        //     setActivities(activities);
+        // }).catch(() => 'Houve um erro ao carregar as atividades');
 
         // api.get<Student[]>(`aluno/listar/idTurma=2`).then(response => {
         //     const students = response.data.map(student => student);
@@ -52,12 +56,30 @@ const Rate = () => {
         // });
     }, []);
 
-    function handleSearchStudent(e: FormEvent) {
-        e.preventDefault();
-
+    function handleSearchStudent() {
         api.get<Student[]>(`aluno/listar/idTurma=${selectedClassId}`).then(response => {
             const students = response.data.map(student => student);
             setStudents(students);
+        });
+    }
+
+    function handleGetActivity(idActivity?: number) {
+        api.get<Activity>(`atividade/listar/id=${idActivity}`).then(response => {
+            const activity = response.data;
+            setActivityValue(activity.valor);
+
+        }).catch((err) => {
+            console.log(err, 'err');
+        });
+    }
+
+    function handleGetActivitiesByClass(idClass: number) {
+        api.get<Activity[]>(`atividade/listar/idTurma=${idClass}`).then(response => {
+            const activitiesByClass = response.data.map(activities => activities);
+            setActivities(activitiesByClass);
+        }).catch((err) => {
+            setActivities([])
+            console.log(err);
         });
     }
 
@@ -76,37 +98,37 @@ const Rate = () => {
             console.log(body)
         }
 
-        api.post('nota/salvar',
-            body
-        ).then(() => {
-            alert('Notas inseridas')
-        }).catch(() => {
-            alert('Não foi possível fazer inserção das notas')
-        })
+        // api.post('nota/salvar',
+        //     body
+        // ).then(() => {
+        //     alert('Notas inseridas')
+        // }).catch(() => {
+        //     alert('Não foi possível fazer inserção das notas')
+        // })
     }
 
+    const tamanho2: number[] = [];
+    const limite = 13;
+    let final;
+    function setValor() {
+        for (let i = 0; i <= activityValue; i++) {
+            tamanho2[i] = i;
+        }
+        final = tamanho2.map(mapeado => (
+            <option value={mapeado}>{mapeado}</option>
+        ))
+        console.log(tamanho2)
+
+        return final;
+    }
     return (
         <>
             <Navbar />
             <div className="gambs">
                 <div className="rate-area">
-
-                    {/* <Select
-                        value={selectedActivityId}
-                        name="Atividade"
-                        label="Atividade"
-                        onChange={(e) => { setSelectedActivityId(Number(e.target.value)) }}
-                    >
-                        <option value=""></option>
-                        {activities.map(activity => (
-                            <option key={activity.descricao} value={activity.id}>{activity.descricao}</option>
-                        ))}
-
-                    </Select> */}
-
                     <Select
                         value={selectedClassId}
-                        onChange={(e) => { setSelectedClassId(Number(e.target.value)) }}
+                        onChange={(e) => { setSelectedClassId(Number(e.target.value)); handleGetActivitiesByClass(Number(e.target.value)); }}
                         name="turma"
                         label="Turma"
                     >
@@ -115,8 +137,20 @@ const Rate = () => {
                             <option key={classes.nome} value={classes.id}>{classes.nome}</option>
                         ))}
                     </Select>
-                    <Button label="Buscar" func={() => handleSearchStudent}></Button>
 
+                    <Select
+                        value={selectedActivityId}
+                        name="Atividade"
+                        label="Atividade"
+                        onChange={(e) => { setSelectedActivityId(Number(e.target.value)); handleGetActivity(Number(e.target.value)) }}
+                    >
+                        <option value=""></option>
+                        {activities.map(activity => (
+                            <option key={activity.descricao} value={activity.id}>{activity.descricao}</option>
+                        ))}
+                    </Select>
+
+                    <Button label="Buscar" func={() => handleSearchStudent}></Button>
                 </div>
 
                 {students[0] &&
@@ -137,7 +171,14 @@ const Rate = () => {
                                         </td>
 
                                         <td>
-                                            <Input type="text" onChange={(e) => { valueRates.push(Number(e.target.value)) }} />
+                                            {/* <Input type="text" onChange={(e) => { valueRates.push(Number(e.target.value)); }} /> */}
+                                            <Select
+                                                onChange={(e) => {valueRates.push(Number(e.target.value))}}
+                                                
+                                            >
+                                                <option value=""></option>
+                                                {setValor()}
+                                            </Select>
                                         </td>
                                     </tr>
                                 ))
@@ -161,7 +202,7 @@ const Rate = () => {
             >
                 <RateEdit />
             </Dialog>
-            
+
         </>
     )
 }

@@ -2,8 +2,8 @@ import React, { SelectHTMLAttributes } from 'react'
 import './styles.css'
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-    label: string;
-    name: string;
+    label?: string;
+    name?: string;
 }
 
 const Select: React.FC<SelectProps> = ({ label, name, ...rest }) => {
