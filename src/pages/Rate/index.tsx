@@ -26,9 +26,11 @@ const Rate = () => {
     const [students, setStudents] = useState<Student[]>([]);
 
     const [valueRates, setValueRates] = useState<number[]>([]);
-    let valueRatesNew: number[] = [];
     const [activityValue, setActivityValue] = useState<number>(0);
     const [open, setOpen] = useState(false);
+
+    const [rateSended, setRateSended] = useState(false);
+    const [rates, setRates] = useState<number>();
 
     function handleOpenDialog() {
         setOpen(true);
@@ -56,10 +58,16 @@ const Rate = () => {
         // });
     }, []);
 
-    function handleSearchStudent() {
+    function handleSearchStudent(idActivity?: number) {
         api.get<Student[]>(`aluno/listar/idTurma=${selectedClassId}`).then(response => {
             const students = response.data.map(student => student);
             setStudents(students);
+        });
+
+        api.get<Activity[]>(`nota/listar/idAtividade=${idActivity}`).then(response => {
+            const activity = response.data.map(activity => activity);
+            activity.length >= 1 ? setRateSended(false) : setRateSended(true);
+            const rates = response.data.map(rates => rates);
         });
     }
 
@@ -101,10 +109,11 @@ const Rate = () => {
         api.post('nota/salvar',
             body
         ).then(() => {
-            alert('Notas inseridas')
+            alert('Notas inseridas');
+            window.location.reload();
         }).catch(() => {
             alert('Não foi possível fazer inserção das notas')
-        })
+        });
     }
 
     const tamanho2: number[] = [];
@@ -143,7 +152,7 @@ const Rate = () => {
                         value={selectedActivityId}
                         name="Atividade"
                         label="Atividade"
-                        onChange={(e) => { setSelectedActivityId(Number(e.target.value)); handleGetActivity(Number(e.target.value)) }}
+                        onChange={(e) => { setSelectedActivityId(Number(e.target.value)); handleGetActivity(Number(e.target.value)); handleSearchStudent(Number(e.target.value)) }}
                     >
                         <option value=""></option>
                         {activities.map(activity => (
@@ -151,10 +160,10 @@ const Rate = () => {
                         ))}
                     </Select>
 
-                    <Button label="Buscar" func={() => handleSearchStudent}></Button>
+                    {/* <Button label="Buscar" func={() => handleSearchStudent}></Button> */}
                 </div>
 
-                {students[0] &&
+                {students[0] && rateSended ?
                     <table>
                         <tbody>
                             <th>Aluno</th>
@@ -188,6 +197,12 @@ const Rate = () => {
                             }
                         </tbody>
                     </table>
+
+                    :
+
+                    <h1>
+                        Esta atividade já teve suas notas lançadas
+                    </h1>
                 }
 
                 <div className="buttons">

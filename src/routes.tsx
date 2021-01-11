@@ -11,7 +11,7 @@ import Rate from './pages/Rate';
 const Routes = () => {
     return (
         <BrowserRouter>
-            <Route path="/" component={InitialPage} />
+            <Route path="/" exact component={InitialPage} />
             <Route path="/user" component={User} />
             <Route path="/class" component={Class}/>
             <Route path="/student" />

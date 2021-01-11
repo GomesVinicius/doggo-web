@@ -1,4 +1,5 @@
 import Classes from "./Class";
+import Student from "./Student";
 
 export default interface Activity {
     id?: number,
@@ -6,4 +7,5 @@ export default interface Activity {
     descricao: string,
     turma: Classes,
     data: string,
+    aluno: Student,
 };
